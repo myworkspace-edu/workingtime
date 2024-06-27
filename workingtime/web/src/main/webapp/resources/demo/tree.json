@@ -1,0 +1,56 @@
+{
+    "id": 0,
+    "text": "Root",
+    "a_attr": {},
+    "state": {
+        "opened": true
+    },
+    "children": [
+        {
+            "id": 1,
+            "parent": 0,
+            "text": "Child #1",
+            "a_attr": {
+                "description": "",
+                "title": "Children #1"
+            },
+            "state": {},
+            "children": [
+                {
+                    "id": 2,
+                    "parent": 1,
+                    "text": "Child #1.1",
+                    "a_attr": {
+                        "description": "",
+                        "title": "Children #1.1"
+                    },
+                    "state": {}
+
+                }
+            ]
+        },
+{
+            "id": 4,
+            "parent": 0,
+            "text": "Child #2",
+            "a_attr": {
+                "description": "",
+                "title": "Children #2"
+            },
+            "state": {},
+            "children": [
+                {
+                    "id": 5,
+                    "parent": 1,
+                    "text": "Child #2.1",
+                    "a_attr": {
+                        "description": "",
+                        "title": "Children #2.1"
+                    },
+                    "state": {}
+
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+    <title>Collection of samples to develop Web Application can run on both Tomcat Standalone and MyWorkspace/Sakai platform.</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="/library/webjars/bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/library/skin/default-skin/tool.css">
+    <link rel="stylesheet" href="/library/webjars/jstree/3.3.11/themes/default/style.min.css">
+
+</head>
+<body>
+
+    <div th:replace="~{fragments/header :: header}">Header</div>
+    <div class="container">
+        <div th:replace="~{fragments/frg_tree :: jstree}">Demo JSTree</div>
+        <div th:insert="~{fragments/footer :: footer}">&copy; 2024 The MKS Company</div>
+    </div>
+
+    <!-- jQuery library -->
+    <script src="/library/webjars/jquery/1.12.4/jquery.min.js"></script>
+    <script src="/library/webjars/jstree/3.3.11/jstree.min.js"></script>
+
+    <!-- Bottom Javascripts -->
+    <script type="text/javascript" th:src="@{/resources/tree.js}" ></script>
+    
+    <!-- Determine the root context of the application.  -->
+    <script th:inline="javascript"> var _ctx = /*[[@{/}]]*/ ''; 
+    </script>
+</body>
+</html>
