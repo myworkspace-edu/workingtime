@@ -2,27 +2,31 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Manage your time better!</title>
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://myworkspace.vn/library/skin/default-skin/tool.css">
+    <title>MyWorkspace Platform - Working time</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="/library/webjars/bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/library/skin/default-skin/tool.css">
+    <link rel="stylesheet" href="/library/webjars/jstree/3.3.11/themes/default/style.min.css">
+
 </head>
 <body>
 
     <div th:replace="~{fragments/header :: header}">Header</div>
-    <div class="container">
-        <div class="text-center">
-            <div class="lead">
-                <H1>How to develop a web application can run on Tomcat standalone <br/>and run on MyWorkspace/Sakai platform?</H1>
-            </div>
-            <div class="lead">Welcome to the collection of samples!</div>
-			<p>Contact: <span th:text="${session.userDisplayName}"></span> - <span th:text="${session.userEid}"></span></p>
-			<p>Facebook Group: <a href="https://www.facebook.com/groups/ttdoanhnghiep" target="_blank">Enterprise Internship Factory</a></p>
-            <p>
-                <a id="signup" class="btn btn-success btn-lg" href="https://myworkspace.vn" target="_blank">MyWorkspace Homepage</a>
-            </p>
-        </div>
-        <div th:insert="~{fragments/footer :: footer}">&copy; 2017 The MKS Company</div>
-    </div>
 
+    <div th:replace="~{fragments/frg_tree :: frg_leftmenu}">Demo JSTree</div>
+    <div th:insert="~{fragments/footer :: footer}">&copy; 2024 The MKS Company</div>
+
+    <!-- jQuery library -->
+    <script src="/library/webjars/jquery/1.12.4/jquery.min.js"></script>
+    <script src="/library/webjars/jstree/3.3.11/jstree.min.js"></script>
+
+    <!-- Bottom Javascripts -->
+    <script type="text/javascript" th:src="@{/resources/left_menu.js}" ></script>
+    <script type="text/javascript" src="/library/webjars/handsontable/handsontable.full.min.js"></script>
+    <script type="text/javascript" th:src="@{/resources/js/workingtime.js}" ></script>
+    
+    <!-- Determine the root context of the application.  -->
+    <script th:inline="javascript"> var _ctx = /*[[@{/}]]*/ ''; 
+    </script>
 </body>
 </html>
