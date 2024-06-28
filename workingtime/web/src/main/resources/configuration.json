@@ -1,6 +1,6 @@
 {
     "id": 0,
-    "text": "AI",
+    "text": "HappyLife",
     "a_attr": {},
     "state": {
         "opened": true
@@ -9,22 +9,56 @@
         {
             "id": 1,
             "parent": 0,
-            "text": "Detection",
+            "text": "Personal",
             "a_attr": {
                 "description": "",
-                "title": "Children #1"
+                "title": "Working time"
             },
-            "state": {}
+            "state": {
+                "opened": true
+            },
+            "children": [
+                {
+                    "id": 2,
+                    "parent": 1,
+                    "text": "Working time",
+                    "a_attr": {
+                        "description": "",
+                        "title": "Working time"
+                    },
+                    "state": {
+                        "opened": true
+                    }
+
+                }
+            ]            
         },
 {
-            "id": 4,
+            "id": 3,
             "parent": 0,
-            "text": "Model",
+            "text": "Team",
             "a_attr": {
                 "description": "",
                 "title": "Children #2"
             },
-            "state": {}
+            "state": {
+                "opened": true
+            },
+            "children": [
+                {
+                    "id": 4,
+                    "parent": 1,
+                    "text": "Working time",
+                    "a_attr": {
+                        "description": "",
+                        "title": "Children #1.1"
+                    },
+                    "state": {
+                        "opened": true
+                    }
+
+                }
+            ]
         }
     ]
 }
