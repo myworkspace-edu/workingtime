@@ -1,32 +1,82 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <title>MyWorkspace platform - Working time tool</title>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="/library/webjars/bootstrap/5.2.0/css/bootstrap.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+    <!-- Handsontable CSS and other styles -->
     <link rel="stylesheet" href="/library/skin/default-skin/tool.css">
     <link rel="stylesheet" href="/library/webjars/jstree/3.3.11/themes/default/style.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css" />
+    <!-- jQuery UI CSS -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
+    <style>
+        /* Custom CSS for Handsontable container */
+        #handsontable {
+            margin-top: 20px;
+        }
+
+        /* Adjust position of datepicker inputs */
+        .datepicker-container {
+            position: relative;
+            z-index: 9999; /* Ensure datepickers are above other content */
+        }
+    </style>
 </head>
 <body>
-
     <div th:replace="~{fragments/header :: header}">Header</div>
+    <div th:replace="~{fragments/frg_tree :: frg_leftmenu}">WorkingTime</div>
 
-    <div th:replace="~{fragments/frg_tree :: frg_leftmenu}">Demo JSTree</div>
-    <div th:insert="~{fragments/footer :: footer}">&copy; 2024 The MKS Company</div>
+    <!-- Container for dynamically added content -->
+    <div id="workingTimeContainer"></div>
 
-    <!-- jQuery library -->
-    <script src="/library/webjars/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Register Working Calendar section -->
+    <div class="container mt-4 datepicker-container">
+        <h5>Register Working Calendar</h5>
+        <div class="row align-items-end">
+            <div class="col">
+                <label for="fromDate" class="form-label">From:</label>
+                <input type="text" class="form-control" id="fromDate" placeholder="dd/mm/yyyy">
+            </div>
+            <div class="col">
+                <label for="toDate" class="form-label">To:</label>
+                <input type="text" class="form-control" id="toDate" placeholder="dd/mm/yyyy">
+            </div>
+        </div>
+    </div>
+
+    <!-- Plan working calendar section -->
+    <div class="container mt-4">
+        <h5>Plan Working Calendar</h5>
+        <div id="handsontable"></div>
+    </div>
+
+    <!-- Register Calendar button -->
+    <div class="container mt-2 text-center">
+        <button id="registerCalendar" class="btn btn-primary">Save</button>
+    </div>
+
+    <!-- Footer -->
+    <div th:insert="~{fragments/footer :: footer}" class="container mt-4">&copy; 2024 The MKS Company</div>
+
+    <!-- External scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script src="/library/webjars/jstree/3.3.11/jstree.min.js"></script>
-
-    <!-- Bottom Javascripts -->
-    <script type="text/javascript" th:src="@{/resources/left_menu.js}" ></script>
-    <script type="text/javascript" src="/library/webjars/handsontable/handsontable.full.min.js"></script>
-    <script type="text/javascript" th:src="@{/resources/js/workingtime.js}" ></script>
     
-    <!-- Determine the root context of the application.  -->
-    <script th:inline="javascript"> var _ctx = /*[[@{/}]]*/ ''; 
+    <!-- Bootstrap JS and other Javascripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" th:src="@{/resources/js/left_menu.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/workingtime.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/tree.js}"></script>
+    <!-- Determine the root context of the application -->
+    <script th:inline="javascript">
+        var _ctx = /*[[@{/}]]*/ '';
     </script>
+    <!-- Your custom script for Handsontable initialization -->
+    <script type="text/javascript" src="your_script.js"></script>
 </body>
 </html>

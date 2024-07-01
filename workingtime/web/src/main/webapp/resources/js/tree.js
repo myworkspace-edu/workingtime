@@ -3,32 +3,28 @@
    * Events:
    * When select a Pool, the name and id of the selected pool will be set to inputs: poolName, poolId in home.jsp
    */
-  $(function () {
-    // 6 create an instance when the DOM is ready
+$(function () {
     $('#jstree').jstree({
         "core" : {
-
-              'multiple' : false,
-              'data' : {
+            'data' : {
                 'url' : function(node) {
-                  return node.id === '#' ? _ctx + 'getNodeRoot' : _ctx + 'getNodeChildren';
+                    return node.id === '#' ? _ctx + 'getNodeRoot' : _ctx + 'getNodeChildren';
                 },
-                'dataType' : 'JSON',
+                'dataType' : 'json',
                 'data' : function(node) {
-                  if (node.id === '#') {
-                    return {
-                      'id' : -1
-                    };
-                  } else {
-                    return {
-                      'id' : node.id,
-                      'description' : node.a_attr["description"]
-                    };
-                  }
+                    if (node.id === '#') {
+                        return {
+                            'id' : 0 // ID của node gốc
+                        };
+                    } else {
+                        return {
+                            'id' : node.id
+                        };
+                    }
                 }
-              }
-              ,"plugins" : [ "unique", "search", "state", "types", "wholerow" ]
-        }   
+            },
+            "plugins" : [ "core", "unique", "search", "state", "types", "wholerow" ]
+        }
     });
     // 7 bind to events triggered on the tree
     $('#jstree').on("changed.jstree", function (e, data) {
