@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="workingtime-web-23.0">
+        <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+        <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated-sources/annotations"/>
+        <dependent-module archiveName="workingtime-api-23.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/workingtime-api/workingtime-api">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="workingtime-common-23.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/workingtime-common/workingtime-common">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="workingtime-controller-23.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/workingtime-controller/workingtime-controller">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="workingtime-impl-23.0.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/workingtime-impl/workingtime-impl">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="workingtime-web"/>
+        <property name="java-output-path" value="/workingtime-web/target/classes"/>
+    </wb-module>
+</project-modules>
