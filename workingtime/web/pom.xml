@@ -17,6 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring.version>5.3.27</spring.version>
         <spring.security.version>5.5.7</spring.security.version>
+        <spring.data.jpa.version>2.5.3</spring.data.jpa.version>
         <module.version>23.0</module.version>
         <thymeleaf.version>3.0.15.RELEASE</thymeleaf.version>
         <sakai.hibernate.version>5.6.15.Final</sakai.hibernate.version>
@@ -185,7 +186,42 @@
 			<artifactId>sakai-component-manager</artifactId>
 			<version>${sakai.kernel.version}</version>
 		</dependency>
-
+		<!-- Support JPA -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-commons</artifactId>
+			<version>${spring.data.jpa.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>${spring.data.jpa.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${sakai.hibernate.version}</version>
+		</dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${sakai.hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <version>2.7.1</version>
+        </dependency>
+		<dependency>
+		    <groupId>org.postgresql</groupId>
+		    <artifactId>postgresql</artifactId>
+		    <version>42.6.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.mariadb.jdbc</groupId>
+		    <artifactId>mariadb-java-client</artifactId>
+		    <version>2.7.4</version>
+		</dependency>
 	</dependencies>
 
 	<build>
