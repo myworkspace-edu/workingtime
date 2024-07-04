@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
     <title>MyWorkspace platform - Working time tool</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="/library/webjars/bootstrap/5.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="/library/skin/default-skin/tool.css">
     <link rel="stylesheet" href="/library/webjars/jstree/3.3.11/themes/default/style.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css" />
-
 </head>
 <body>
 
@@ -17,30 +16,33 @@
     <div th:replace="~{fragments/frg_tree :: frg_leftmenu}">Demo JSTree</div>
     
     <!-- Register Working Calendar -->
-    <div th:replace="~{fragments/register :: register}">Register Working calender</div>
+    <div th:replace="~{fragments/register :: register}">Register Working Calendar</div>
+    
     <!-- Handsontable container -->
-    <div id="tblProduct"></div>
+    <div id="handsontable"></div>
+    
     <div th:insert="~{fragments/footer :: footer}">&copy; 2024 The MKS Company</div>
     
-    <h5>Plan working calender</h5>
-    <div id="handsontable"></div>
-  	<script src="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.js"></script>
-  	<div class="container mt-2 text-center">
-        <button type="submit">Save</button>
+    <h5>Plan working calendar</h5>
+    
+    <!-- Save Button -->
+    <div class="container mt-2 text-center">
+        <button id="saveBtn" type="button">Save</button>
     </div>
 
-    <!-- jQuery library -->
+    <!-- JavaScript libraries -->
     <script src="/library/webjars/jquery/1.12.4/jquery.min.js"></script>
     <script src="/library/webjars/jstree/3.3.11/jstree.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.js"></script>
 
     <!-- Bottom Javascripts -->
-    <script type="text/javascript" th:src="@{/resources/js/left_menu.js}" ></script>
-    <script type="text/javascript" src="/library/webjars/handsontable/handsontable.full.min.js"></script>
-    <script type="text/javascript" th:src="@{/resources/js/workingtime.js}" ></script>
-    <script type="text/javascript" th:src="@{/resources/js/tree.js}" ></script>
+    <script type="text/javascript" th:src="@{/resources/js/left_menu.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/workingtime.js}"></script>
+    <script type="text/javascript" th:src="@{/resources/js/tree.js}"></script>
     
-    <!-- Determine the root context of the application.  -->
-    <script th:inline="javascript"> var _ctx = /*[[@{/}]]*/ ''; 
+    <!-- Determine the root context of the application. -->
+    <script th:inline="javascript">
+        var _ctx = /*[[@{/}]]*/ '';
     </script>
 </body>
 </html>

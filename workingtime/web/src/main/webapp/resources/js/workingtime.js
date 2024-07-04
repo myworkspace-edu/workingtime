@@ -3,7 +3,7 @@
  */
 $(document).ready(function() {
     loadTableData();
-    setupRegisterForm(); // Thêm hàm này để thiết lập form đăng ký lịch làm việc
+    setupRegisterForm(); // Call the setupRegisterForm function
 });
 
 /**
@@ -110,16 +110,12 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 function setupRegisterForm() {
-    $('#registerBtn').click(function() {
-        $('#registerForm').modal('show');
-    });
-
-    $('#registerForm').on('submit', function(event) {
+    $('#registrationForm').on('submit', function(event) {
         event.preventDefault();
 
         var fromDate = $('#fromDate').val();
         var toDate = $('#toDate').val();
-        var status = $('#status').val();
+        var status = 'active'; // You can modify this according to your needs
 
         $.ajax({
             url: _ctx + 'handsontable/register',
@@ -144,6 +140,8 @@ function setupRegisterForm() {
         });
     });
 }
-function saveData() {
-    // Implement save functionality here if needed
-}
+
+$(document).ready(function() {
+    loadTableData();
+    setupRegisterForm();
+});

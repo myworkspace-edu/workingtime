@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register Working Calendar</title>
+    <link rel="stylesheet" href="/path/to/bootstrap.min.css">
+    <!-- Other CSS links -->
+</head>
+<body>
+
+    <div th:fragment="register">
+        <h2>Register Working Calendar</h2>
+        <form id="registrationForm" th:action="@{/handsontable/registerData}" method="post">
+            <!-- From Date Input -->
+            <label for="fromDate">From:</label>
+            <input type="text" id="fromDate" name="fromDate" placeholder="dd/mm/yyyy">
+            
+            <!-- To Date Input -->
+            <label for="toDate">To:</label>
+            <input type="text" id="toDate" name="toDate" placeholder="dd/mm/yyyy">
+            
+            <!-- Status Input -->
+            <label for="status">Status:</label>
+            <input type="text" id="status" name="status" placeholder="Enter status">
+            
+            <!-- Submit Button -->
+            <button type="submit">Save</button>
+        </form>
+    </div>
+
+    <!-- JavaScript imports -->
+    <script src="/path/to/jquery.min.js"></script>
+    <!-- Other JS imports -->
+</body>
+</html>
