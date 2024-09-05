@@ -1,35 +1,41 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Register Working Calendar</title>
-    <link rel="stylesheet" href="/path/to/bootstrap.min.css">
-    <!-- Other CSS links -->
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Register Working Calendar</title>
 </head>
 <body>
+	<div th:fragment="register">
+		<h2 th:text="#{register_calendar}">Register Working Calendar</h2>
+		<hr>
+		<h6>
+			<span th:text="#{time_frame}">Time Frame</span> <span
+				th:title="#{select_register_time_frame}">💡</span>
 
-    <div th:fragment="register">
-        <h2>Register Working Calendar</h2>
-        <form id="registrationForm" th:action="@{/handsontable/registerData}" method="post">
-            <!-- From Date Input -->
-            <label for="fromDate">From:</label>
-            <input type="text" id="fromDate" name="fromDate" placeholder="dd/mm/yyyy">
-            
-            <!-- To Date Input -->
-            <label for="toDate">To:</label>
-            <input type="text" id="toDate" name="toDate" placeholder="dd/mm/yyyy">
-            
-            <!-- Status Input -->
-            <label for="status">Status:</label>
-            <input type="text" id="status" name="status" placeholder="Enter status">
-            
-            <!-- Submit Button -->
-            <button type="submit">Save</button>
-        </form>
-    </div>
+		</h6>
+		<hr>
+		<form id="registrationForm" th:action="@{/handsontable/register}"
+			method="post">
+			<!-- From Date Input -->
+			<label for="fromDate" th:text="#{from_date}">From:</label> <input
+				type="date" id="fromDate" name="fromDate" th:value="${fromDate}"
+				placeholder="dd/mm/yyyy">
 
-    <!-- JavaScript imports -->
-    <script src="/path/to/jquery.min.js"></script>
-    <!-- Other JS imports -->
+			<!-- To Date Input -->
+			<label for="toDate" th:text="#{to_date}">To:</label> <input
+				type="date" id="toDate" name="toDate" th:value="${toDate}"
+				placeholder="dd/mm/yyyy">
+
+			<!-- Name Input -->
+			<label for="name" th:text="#{name}">Name:</label>
+			<input type="text" id="name" name="name" th:value="${userDisplayName}" readonly="readonly">
+		</form>
+		<br>
+		<h6>
+			<span th:text="#{plan_working}">Plan Working Calendar</span> <span
+				th:title="#{edit_register_schedules}">💡</span>
+		</h6>
+	</div>
 </body>
 </html>

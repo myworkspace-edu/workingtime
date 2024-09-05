@@ -62,9 +62,10 @@
     <!-- Load configuration file. -->
     <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
         <property name="ignoreUnresolvablePlaceholders" value="true" />
-        <property name="location">
-            <value>/WEB-INF/app-config.properties</value>
-        </property>
+        <property name="location" value="file:///etc/myworkspace/workingtime/app-config.properties" />
+<!--         <property name="location"> -->
+<!--             <value>/WEB-INF/app-config.properties</value> -->
+<!--         </property> -->
     </bean>
 
 	<context:component-scan base-package="mks.mws.tool.workingtime" />
@@ -81,7 +82,7 @@
 	<!-- Step 2 -->
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="packagesToScan" value="mks.mws.tool.workingtime.model" />
+		<property name="packagesToScan" value="mks.mws.tool.workingtime.entity" />
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 				<property name="generateDdl" value="${auto.ddl}" />
@@ -104,5 +105,15 @@
 	</bean>
 	
 	<jpa:repositories base-package="mks.mws.tool.workingtime.repository" />
-	
+
+	<!-- Data source 0 for JdbcTemplate: This is used to save data on MyWorkspace Platform -->
+	<bean id="dataSource0" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${driverClassName@javax.sql.BaseDataSource}" />
+		<property name="url" value="${url@javax.sql.BaseDataSource}" />
+		<property name="username" value="${username@javax.sql.BaseDataSource}" />
+		<property name="password" value="${password@javax.sql.BaseDataSource}" />
+	</bean>
+	<bean id="jdbcTemplate0" primary="true" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource0"/>
+	</bean>
 </beans>

@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>workingtime</artifactId>
 		<groupId>mks.mws.tool.workingtime</groupId>
-		<version>23.0</version>
+		<version>23.2</version>
 	</parent>
 <!-- 	<groupId>mks.mws.tool.workingtime</groupId> -->
 	<artifactId>workingtime-controller</artifactId>
@@ -27,6 +27,16 @@
             <groupId>mks.mws.tool.workingtime</groupId>
             <artifactId>workingtime-impl</artifactId>
 <!--             <version>${module.version}</version> -->
+        </dependency>
+		<dependency>
+            <groupId>mks.mws.tool.workingtime</groupId>
+            <artifactId>workingtime-jpa</artifactId>
+            <version>${module.version}</version>
+        </dependency>
+		<dependency>
+            <groupId>mks.mws.tool.workingtime</groupId>
+            <artifactId>workingtime-biz</artifactId>
+            <version>${module.version}</version>
         </dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -97,7 +107,23 @@
             <artifactId>sakai-component-manager</artifactId>
         </dependency>
 
-
+		<!-- Support JPA -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-commons</artifactId>
+			<version>${spring.data.jpa.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>${spring.data.jpa.version}</version>
+		</dependency>
+		<!-- JPA API -->
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>javax.persistence-api</artifactId>
+			<version>2.2</version> <!-- Example version -->
+		</dependency>
 	</dependencies>
 	<build>
 		<!-- configure the build to use the standard maven structure -->

@@ -1,19 +1,39 @@
 <div class="container">
-        <h1>Working calendar</h1>
-        
-        <form>
-            <div class="form-group">
-                <label for="fromDate">From</label>
-                <input type="date" class="form-control" id="fromDate" placeholder="dd/mm/yyyy">
-            </div>
-            <div class="form-group">
-                <label for="toDate">To</label>
-                <input type="date" class="form-control" id="toDate" placeholder="dd/mm/yyyy">
-            </div>
-        </form>
-        
-        <h2>Plan working calendar</h2>
-        <div id="tblProduct"></div>
-        <button class="btn btn-primary" id="saveDataBtn">Save</button>
-
+	<h1 th:text="#{working_calendar}">Working calendar</h1>
+	<hr>
+	<h6>
+		<span th:text="#{time_frame}">Time Frame</span> <span
+			th:title="#{select_working_time_frame}">💡</span>
+	</h6>
+	<hr>
+	<form>
+		<label for="fromDate" th:text="#{from_date}">From</label> <input
+			type="date" id="fromDate" th:value="${fromDate}"
+			placeholder="dd/mm/yyyy"> <label for="toDate"
+			th:text="#{to_date}">To</label> <input type="date" id="toDate"
+			th:value="${toDate}" placeholder="dd/mm/yyyy">
+	</form>
+	<br>
+	<h6>
+		<span th:text="#{plan_working}">Plan working calendar</span> <span
+			th:title="#{edit_work_schedules}">💡</span>
+	</h6>
+	<hr>
+	<div class="row">
+		<div class="col-md-9">
+			<div id="tblCalendar"></div>
+		</div>
+		<div class="col-md-3">
+			<div class="d-flex flex-column">
+				<div class="d-flex align-items-center">
+					<div class="color-box green-box mr-2">Y</div>
+					<div th:text="#{plan_to_work}">Plan to work</div>
+				</div>
+				<div class="d-flex align-items-center">
+					<div class="color-box red-box mr-2">N</div>
+					<div th:text="#{not_working}">Not working</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

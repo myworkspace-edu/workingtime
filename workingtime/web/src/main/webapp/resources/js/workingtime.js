@@ -1,147 +1,274 @@
-/**
- * Processing events of search OKR by emails.
- */
 $(document).ready(function() {
-    loadTableData();
-    setupRegisterForm(); // Call the setupRegisterForm function
-});
+	loadTableData();
+	loadNoteData();
 
+	$('#saveDataBtn').on('click', function() {
+		saveTableData();
+	});
+	//    $('#loadDataBtn').on('click', function() {
+	//        loadTableData();
+	//        loadNoteData() 
+	//    });
+	$('#fromDate, #toDate,#name').on('change', function() {
+		loadTableData();
+		loadNoteData();
+	});
+
+	$(document).ready(function() {
+		$("#name").on("keydown", function(e) {
+			console.log("Key pressed:", e.key);
+			if (e.key === 'Enter') {
+				e.preventDefault();
+			}
+		});
+	});
+
+});
 /**
  * Load column width, header, initTable()
  */
-function loadTableData() {
-    $.ajax({
-        url: _ctx + 'handsontable/loaddata',
-        type: 'GET',
-        dataType: 'json',
-        contentType: 'application/json',
-        success: function(res) {
-            console.log("res=" + JSON.stringify(res));
 
-            if (res) {
-                tblProductData = res.data;
-                tblProductColHeaders = res.colHeaders;
-                tblProductColWidths = res.colWidths;
-                okrData = res.data;
-                initTable();
-            }
-        },
-        error: function(e) {
-            console.error("Error: " + e);
-        }
-    });
+function loadNoteData() {
+	var fromDate = $('#fromDate').val();
+	var toDate = $('#toDate').val();
+	var name = $('#name').val();
+	$.ajax({
+		url: _ctx + 'handsontableData/notedata',
+		type: 'GET',
+		dataType: 'json',
+		data: {
+			fromDate: fromDate,
+			toDate: toDate,
+			name: name,
+		},
+		contentType: 'application/json',
+		success: function(res) {
+			console.log("res=" + JSON.stringify(res));
+			if (res && Array.isArray(res) && res.length > 0) {
+				var firstNote = res[0];
+				var changeToString = firstNote.toString();
+				$('#note').val(changeToString);
+			} else {
+				$('#note').val("");
+			}
+		},
+		error: function(e) {
+			console.log("Error: " + e);
+		}
+	});
+}
+
+function loadTableData() {
+	var fromDate = $('#fromDate').val();
+	var toDate = $('#toDate').val();
+	var name = $('#name').val();
+	$.ajax({
+		url: _ctx + 'handsontableData/loaddata',
+		type: 'GET',
+		dataType: 'json',
+		data: {
+			fromDate: fromDate,
+			toDate: toDate,
+			name: name,
+		},
+		contentType: 'application/json',
+		success: function(res) {
+			console.log("res=" + JSON.stringify(res));
+			if (res && res.data && res.data.length > 0) {
+				tblCalendarData = res;
+				tblCalendarColHeaders = res.colHeaders;
+				tblCalendarColWidths = res.colWidths;
+				okrData = res.data;
+			} else {
+				// Set default data when response data is empty
+				tblCalendarData = {
+					colHeaders: res.colHeaders,
+					colWidths: res.colWidths,
+					data: [
+						["AM", "", "", "", "", "", "", ""],
+						["PM", "", "", "", "", "", "", ""]
+					]
+				};
+				tblCalendarColHeaders = tblCalendarData.colHeaders;
+				tblCalendarColWidths = tblCalendarData.colWidths;
+				okrData = tblCalendarData.data;
+			}
+			initTable();
+		},
+		error: function(e) {
+			console.log("Error: " + e);
+		}
+	});
 }
 
 function initTable() {
-    var container = document.getElementById('tblProduct');
+	var container = document.getElementById('handsontable');
+	hotProduct = new Handsontable(container, {
+		data: tblCalendarData.data,
+		colHeaders: tblCalendarData.colHeaders,
+		colWidths: tblCalendarData.colWidths,
+		height: 90,
+		rowHeaders: true,
+		minRows: 1,
+		maxRows: 2,
+		currentRowClassName: 'currentRow',
+		currentColClassName: 'currentCol',
+		manualColumnResize: true,
+		manualRowResize: true,
+		minSpareRows: 1,
+		contextMenu: true,
+		licenseKey: 'non-commercial-and-evaluation',
+		cells: function(row, col, prop) {
+			var cellProperties = {};
 
-    hotProduct = new Handsontable(container, {
-        data: tblProductData,
-        colHeaders: tblProductColHeaders,
-        colWidths: tblProductColWidths,
-        height: 800,
-        rowHeaders: true,
-        minRows: 14,
-        currentRowClassName: 'currentRow',
-        currentColClassName: 'currentCol',
-        manualColumnResize: true,
-        manualRowResize: true,
-        minSpareRows: 1,
-        contextMenu: true,
-        licenseKey: 'non-commercial-and-evaluation'
-    });
+			// set read-only cho cột section
+			if (col === 0 && (row === 0 || row === 1)) {
+				cellProperties.readOnly = true;
+
+				// Apply custom renderer for styling
+				cellProperties.renderer = function(instance, td, row, col, prop, value, cellProperties) {
+					Handsontable.renderers.TextRenderer.apply(this, arguments);
+					td.style.textAlign = 'center';
+					td.style.backgroundColor = '#66CDAA';  // Custom background color
+					td.style.color = 'black';  // Text color
+				};
+			} else {
+				// Handle other columns
+				cellProperties.renderer = function(instance, td, row, col, prop, value, cellProperties) {
+					Handsontable.renderers.TextRenderer.apply(this, arguments);
+					td.style.textAlign = 'center';
+
+					if (value === 'Y' || value === 'y') {
+						td.style.backgroundColor = '#d1e7dd';  // Background for 'Y'
+						td.style.color = 'black';
+					} else if (value === 'N' || value === 'n') {
+						td.style.backgroundColor = '#ffb3b3';  // Background for 'N'
+						td.style.color = 'black';
+					} else {
+						td.style.backgroundColor = '#FFFFFF';  // Default background
+						td.style.color = 'black';
+					}
+				};
+			}
+
+			return cellProperties;
+		}
+	});
 }
 
-const container = document.querySelector('#handsontable');
-document.addEventListener("DOMContentLoaded", function() {
-    const data = [
-        ["", "", "N", "N", "N", "N", "N", "N", "N"],
-        // ...
-    ];
 
-    const example = document.getElementById("handsontable");
+function saveTableData() {
+	var fromDate = $('#fromDate').val();
+	var toDate = $('#toDate').val();
+	var name = $('#name').val();
+	var note = $('#note').val();
+	var updatedData = hotProduct.getData();
 
-    new Handsontable(example, {
-        data,
-        height: 450,
-        colWidths: [170, 156, 80, 80, 80, 80, 80, 80, 80],
-        colHeaders: [
-            "Account",
-            {
-                type: "dropdown",
-                source: ["AM", "PM"],
-                title: "Section",
-            },
-            "Mon",
-            "Tue",
-            "Wed",
-            "Thu",
-            "Fri",
-            "Sat",
-            "Sun",
-        ],
-        columns: [
-            { data: 0, type: "text" },
-            {
-                data: 1,
-                type: "dropdown",
-                source: ["AM", "PM"],
-            },
-            { data: 2, type: "checkbox", checkedTemplate: "Y", uncheckedTemplate: "N" },
-            { data: 3, type: "checkbox", checkedTemplate: "Y", uncheckedTemplate: "N" },
-            { data: 4, type: "checkbox", checkedTemplate: "Y", uncheckedTemplate: "N" },
-            { data: 5, type: "checkbox", checkedTemplate: "Y", uncheckedTemplate: "N" },
-            { data: 6, type: "checkbox", checkedTemplate: "Y", uncheckedTemplate: "N" },
-            { data: 7, type: "checkbox", checkedTemplate: "Y", uncheckedTemplate: "N" },
-            { data: 8, type: "checkbox", checkedTemplate: "Y", uncheckedTemplate: "N" },
-        ],
-        dropdownMenu: true,
-        hiddenColumns: {
-            indicators: true,
-        },
-        contextMenu: true,
-        filters: true,
-        rowHeaders: true,
-        manualRowMove: true,
-        autoWrapCol: true,
-        autoWrapRow: true,
-        licenseKey: "non-commercial-and-evaluation",
-    });
-});
+	// Regex để kiểm tra ký tự đặc biệt
+	var specialCharPattern = /[!@#$%^&*(),.?":{}|<>]/g;
 
-function setupRegisterForm() {
-    $('#registrationForm').on('submit', function(event) {
-        event.preventDefault();
+	// Kiểm tra ký tự đặc biệt trong tên
+	if (specialCharPattern.test(name)) {
+		displayError(errorMessages.SPECIAL_CHAR_NOT_ALLOWED);
+		return;
+	}
 
-        var fromDate = $('#fromDate').val();
-        var toDate = $('#toDate').val();
-        var status = 'active'; // You can modify this according to your needs
+	// Kiểm tra độ dài tên
+	if (name.length > 30) {
+		displayError(errorMessages.NAME_TOO_LONG);
+		return;
+	} else if (name.length < 8) {
+		displayError(errorMessages.NAME_TOO_SHORT);
+		return;
+	}
 
-        $.ajax({
-            url: _ctx + 'handsontable/register',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify({ fromDate: fromDate, toDate: toDate, status: status }),
-            success: function(response) {
-                console.log("Response: " + JSON.stringify(response));
-                if (response.success) {
-                    var newData = [fromDate, toDate, status];
-                    hotProduct.getSourceData().push(newData);
-                    hotProduct.render(); // Re-render the table to reflect the new data
-                    $('#registerForm').modal('hide');
-                } else {
-                    alert("Failed to register working calendar: " + response.message);
-                }
-            },
-            error: function(error) {
-                console.error("Error: " + JSON.stringify(error));
-                alert("Failed to register working calendar. Please try again later.");
-            }
-        });
-    });
+	// Kiểm tra các trường bắt buộc
+	if (!fromDate || !toDate || !name) {
+		if (!fromDate) {
+			displayError(errorMessages.FROM_DATE_REQUIRED);
+		} else if (!toDate) {
+			displayError(errorMessages.TO_DATE_REQUIRED);
+		} else if (!name) {
+			displayError(errorMessages.NAME_REQUIRED);
+		}
+		return;
+	}
+
+	// Kiểm tra 'toDate' phải sau 'fromDate'
+	if (new Date(toDate) <= new Date(fromDate)) {
+		displayError(errorMessages.TO_DATE_AFTER_FROM_DATE);
+		return;
+	}
+
+	// Kiểm tra giá trị của các ô trong bảng
+	var hasN = false;
+	for (var i = 0; i < updatedData.length; i++) {
+		for (var j = 0; j < updatedData[i].length; j++) {
+			var cellValue = updatedData[i][j];
+			if (!cellValue) {
+				displayError(errorMessages.ALL_CELLS_FILLED);
+				return;
+			}
+			if (!isSectionColumn(j) && cellValue.toString().toUpperCase() !== 'Y' && cellValue.toString().toUpperCase() !== 'N') {
+				displayError(errorMessages.INVALID_CELL_VALUE);
+				return;
+			}
+			if (cellValue.toString().toLowerCase() === 'n') {
+				hasN = true;
+			}
+		}
+	}
+
+	// Nếu có 'N' trong dữ liệu thì phải có ghi chú
+	if (hasN && (!note || note.trim() === "")) {
+		displayError(errorMessages.MUST_REGISTER_NOTE);
+		return;
+	}
+
+	// Tạo đối tượng `TableStructure` tương tự như trong Task
+	var colHeaders = hotProduct.getColHeader();
+	var colWidths = [];
+	for (let i = 0; i < colHeaders.length; i++) {
+		let width = hotProduct.getColWidth(i);
+		colWidths.push(width);
+	}
+
+    // Tạo đối tượng `registerCalendarModel`
+    var registerCalendarModel = {
+        name: name,
+        fromDate: fromDate,
+        toDate: toDate,
+        data: updatedData, // Directly use the updatedData array
+        note: note,
+        colWidths: colWidths,   
+        colHeaders: colHeaders 
+    };
+
+
+	$.ajax({
+		url: _ctx + 'handsontableData/savedata',
+		type: 'POST',
+		data: JSON.stringify(registerCalendarModel),
+		dataType: 'json',
+		contentType: 'application/json',
+		success: function(res) {
+			displaySuccessMessage('Save successfully');
+		},
+		error: function(xhr, status, error) {
+			console.error("Status: " + status);
+			console.error("Error: " + error);
+			console.error("Response: " + xhr.responseText);
+			// Thêm thông tin chi tiết từ response nếu có
+			var response = JSON.parse(xhr.responseText);
+			console.error("Response Detail: " + response.detail);
+			displayError('Save Failed');
+		}
+	});
 }
 
-$(document).ready(function() {
-    loadTableData();
-    setupRegisterForm();
-});
+
+// Method to determine section columns
+function isSectionColumn(columnIndex) {
+	return columnIndex === 0 || columnIndex === 1;
+}
+

@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>workingtime</artifactId>
 		<groupId>mks.mws.tool.workingtime</groupId>
-		<version>23.0</version>
+		<version>23.2</version>
 	</parent>
 <!-- 	<groupId>mks.mws.tool.workingtime</groupId> -->
 	<artifactId>workingtime-common</artifactId>
@@ -15,6 +15,8 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
+		
+		
 	</dependencies>
 	<build>
 		<!-- configure the build to use the standard maven structure -->

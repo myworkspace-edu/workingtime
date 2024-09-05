@@ -1,14 +1,18 @@
 <!-- Fragment: Horizontal menu -->
 <ul class="navIntraTool actionToolbar">
   <li>  
-      <span title="Home">
-        <a th:href="@{/}">Home</a>
-      </span>
+    <span title="Home">
+      <a th:href="@{/}" th:text="#{home}">Home</a>
+    </span>
   </li>
- <li> 
-     <span title="Demo Tree">
-       <a th:href="@{/tree}">Demo Tree</a>
-     </span>
- </li>
-
+  <li> 
+    <span title="Team View Calendar">
+      <a th:href="@{/teamcalendar}" th:text="#{teamview}">Team View Calendar</a>
+    </span>
+  </li>
+  <li> 
+    <span title="Task tracking">
+      <a th:href="@{/task}" th:text="#{task}">Task</a>
+    </span>
+  </li>
 </ul>

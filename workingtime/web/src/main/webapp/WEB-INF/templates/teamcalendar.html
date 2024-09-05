@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>MyWorkspace platform - Working time tool</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="/library/webjars/bootstrap/5.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="/library/skin/default-skin/tool.css">
+<link rel="stylesheet"
+	href="/library/webjars/jstree/3.3.11/themes/default/style.min.css">
+<link rel="stylesheet"
+	href="/library/webjars/handsontable/handsontable.full.min.css" />
+<link rel="stylesheet" type="text/css"
+	th:href="@{/resources/css/register/teamview.css}" />
+</head>
+<body>
+	<div th:replace="~{fragments/header :: header}">Header</div>
+
+	<!-- Register Working Calendar -->
+	<th:block th:include="fragments/frg_handsontable"></th:block>
+
+	<div class="text-center">
+		<button class="btn btn-primary" id="saveDataBtn"
+			th:text="#{save_button}">Save</button>
+	</div>
+
+	<div th:insert="~{fragments/footer :: footer}">&copy; 2024 The
+		MKS Company</div>
+
+	<!-- JavaScript libraries -->
+	<script src="/library/webjars/jquery/1.12.4/jquery.min.js"></script>
+	<script src="/library/webjars/handsontable/handsontable.full.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="/library/webjars/jquery-ui/1.12.1/jquery-ui.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+	<script type="text/javascript"
+		th:src="@{/resources/js/errorMessages.js}"></script>
+	<script type="text/javascript"
+		th:src="@{/resources/js/handsontable.js}"></script>
+	<script src="/library/js/headscripts.js"></script>
+	<!-- Determine the root context of the application. -->
+	<script th:inline="javascript">
+        var _ctx = /*[[@{/}]]*/ '';
+    </script>
+</body>
+</html>

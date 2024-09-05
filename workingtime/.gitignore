@@ -4,4 +4,9 @@ target
 .classpath
 .factorypath
 release
+bin
+
+/.metadata/
+/tool
+
 
