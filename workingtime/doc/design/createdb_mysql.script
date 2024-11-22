@@ -1,3 +1,11 @@
 CREATE database workingtime default character set utf8;
 CREATE user 'workingtime_user'@'%' identified by 'Workingtime@123';
 GRANT ALL PRIVILEGES ON workingtime.* TO 'workingtime_user'@'%';
+
+#chạy trên cmd
+mysql -u root -p
+CREATE DATABASE sakai233 DEFAULT CHARACTER SET utf8;
+CREATE database workingtime default character set utf8;
+CREATE USER 'sakai_user'@'%' IDENTIFIED BY 'Sakai!123';
+GRANT ALL PRIVILEGES ON sakai233.* TO 'sakai_user'@'%';
+GRANT ALL PRIVILEGES ON workingtime.* TO 'sakai_user'@'%';
