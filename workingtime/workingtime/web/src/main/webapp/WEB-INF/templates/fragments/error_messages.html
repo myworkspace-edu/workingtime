@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Error Messages</title>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<script type="text/javascript" th:src="@{/resources/js/errorMessages.js}"></script>
+</head>
+<body>
+	<!-- Embed messages in data attributes -->
+	<div th:fragment="error_messages">
+		<div id="messages" th:if="${not #lists.isEmpty(messages)}"
+			th:attr="data-from-date-required=${fromDateRequiredMessage}, 
+                   data-to-date-required=${toDateRequiredMessage}, 
+                   data-special-char-not-allowed=${specialCharNotAllowedMessage}, 
+                   data-name-required=${nameRequiredMessage}, 
+                   data-to-date-after-from-date=${toDateAfterFromDateMessage}, 
+                   data-all-cells-filled=${allCellsFilledMessage}, 
+                   data-invalid-cell-value=${invalidCellValueMessage}, 
+                   data-must-register-note=${mustRegisterNoteMessage}">
+		</div>
+	</div>
+</body>
+</html>
