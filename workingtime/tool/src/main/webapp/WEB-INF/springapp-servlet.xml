@@ -62,17 +62,10 @@
     <!-- Load configuration file. -->
     <bean class="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">
         <property name="ignoreUnresolvablePlaceholders" value="true" />
-<<<<<<< .mine
-        <!--<property name="location" value="file:///etc/myworkspace/workingtime/app-config.properties" />-->
-        <property name="location">
-            <value>/WEB-INF/app-config.properties</value>
-        </property>
-=======
         <property name="location" value="file:///etc/myworkspace/workingtime/app-config.properties" />
 <!--         <property name="location"> -->
 <!--             <value>/WEB-INF/app-config.properties</value> -->
 <!--         </property> -->
->>>>>>> .theirs
     </bean>
 
 	<context:component-scan base-package="mks.mws.tool.workingtime" />

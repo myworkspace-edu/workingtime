@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>MyWorkspace platform - Working time tool</title>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="/library/webjars/bootstrap/5.2.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="/library/skin/default-skin/tool.css">
+<link rel="stylesheet"
+	href="/library/webjars/jstree/3.3.11/themes/default/style.min.css">
+<link rel="stylesheet"
+	href="/library/webjars/handsontable/handsontable.full.min.css" />
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
+<link rel="stylesheet" type="text/css"
+	th:href="@{/resources/css/register/register.css}" />
+</head>
+<body>
+	<div th:replace="~{fragments/header :: header}">Header</div>
+
+	<!-- Language Switcher -->
+	<div class="container mt-3">
+		<div class="dropdown-container">
+			<div class="dropdown">
+				<button class="btn btn-secondary dropdown-toggle" type="button"
+					id="dropdownMenuButton" data-bs-toggle="dropdown"
+					aria-expanded="false">
+					<span th:text="#{current_language}">Current Language</span>
+				</button>
+				<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+					<li><a class="dropdown-item" href="#"
+						th:href="@{/change-language?lang=vi}"> <span
+							class="flag-icon flag-icon-vn"></span> <span
+							th:text="#{vietnamese}">Vietnamese</span>
+					</a></li>
+					<li><a class="dropdown-item" href="#"
+						th:href="@{/change-language?lang=en}"> <span
+							class="flag-icon flag-icon-gb"></span> <span th:text="#{english}">English</span>
+					</a></li>
+					<li><a class="dropdown-item" href="#"
+						th:href="@{/change-language?lang=ja}"> <span
+							class="flag-icon flag-icon-jp"></span> <span
+							th:text="#{japanese}">Japanese</span>
+					</a></li>
+					<li><a class="dropdown-item" href="#"
+						th:href="@{/change-language?lang=ko}"> <span
+							class="flag-icon flag-icon-kr"></span> <span th:text="#{korean}">Korean</span>
+					</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<!-- Register Working Calendar -->
+	<div class="container">
+		<div th:replace="~{fragments/register :: register}">Register
+			Working Calendar</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-9">
+				<div id="handsontable"></div>
+			</div>
+			<div class="col-md-3">
+				<div class="d-flex flex-column">
+					<div class="d-flex align-items-center">
+						<div class="color-box green-box mr-2">Y</div>
+						<div th:text="#{plan_to_work}">Plan to work</div>
+					</div>
+					<div class="d-flex align-items-center">
+						<div class="color-box red-box mr-2">N</div>
+						<div th:text="#{not_working}">Not working</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<h6>
+			<span th:text="#{reason_busy}">Reason Busy</span> <span
+				th:title="#{note_reason}">💡</span>
+		</h6>
+		<hr>
+		<textarea id="note" name="note" th:placeholder="#{placeholder_note}"></textarea>
+	</div>
+
+	<div class="text-center">
+		<button class="btn btn-primary" id="saveDataBtn"
+			th:text="#{save_button}">Save</button>
+	</div>
+
+	<div th:insert="~{fragments/footer :: footer}" th:text="#{footer_text}"
+		class="text-center">&copy; 2024 The MKS Company</div>
+
+	<!-- JavaScript libraries -->
+	<script src="/library/js/headscripts.js"></script>
+
+	<!-- Load jQuery first -->
+	<script src="/library/webjars/jquery/1.12.4/jquery.min.js"></script>
+
+	<!-- Then load Bootstrap JavaScript -->
+	<script
+		src="/library/webjars/bootstrap/5.2.0/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Other JavaScript libraries -->
+	<script src="/library/webjars/handsontable/handsontable.full.min.js"></script>
+	<script src="/library/webjars/jquery-ui/1.12.1/jquery-ui.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+	<script type="text/javascript"
+		th:src="@{/resources/js/errorMessages.js}"></script>
+	<!-- Bottom Javascripts -->
+	<script type="text/javascript" th:src="@{/resources/js/workingtime.js}"></script>
+
+	<!-- Determine the root context of the application. -->
+	<script th:inline="javascript">
+		var _ctx = /*[[@{/}]]*/'';
+	</script>
+</body>
+</html>
