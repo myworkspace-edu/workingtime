@@ -81,7 +81,7 @@ public class TeamCalendarValidator {
 
 	private boolean validateRow(Object[] row, int rowIndex) {
 		// Validate that all cells except the 'Section' column (index 1) are non-empty
-		for (int colIndex = 2; colIndex < row.length; colIndex++) {
+		for (int colIndex = 2; colIndex < row.length - 3; colIndex++) {
 			Object cell = row[colIndex];
 			if (cell == null || cell.toString().trim().isEmpty()) {
 				log.error("Validation Error: Empty cell found in row " + rowIndex + ", column " + (colIndex + 1));
