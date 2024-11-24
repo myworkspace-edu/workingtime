@@ -9,6 +9,15 @@ $(document).ready(function() {
 	//        loadTableData();
 	//        loadNoteData() 
 	//    });
+	
+	$('#fromDate').on('change', function() {
+		fitStartWeek()
+	})
+	
+	$('#toDate').on('change', function() {
+			fitEndWeek()
+	})
+	
 	$('#fromDate, #toDate,#name').on('change', function() {
 		loadTableData();
 		loadNoteData();
@@ -271,4 +280,52 @@ function saveTableData() {
 function isSectionColumn(columnIndex) {
 	return columnIndex === 0 || columnIndex === 1;
 }
+
+function fitStartWeek() {
+    var date = new Date($('#fromDate').val()); 
+
+    var startOfWeek = new Date(date);
+    var endOfWeek = new Date(date);
+
+    // Check if the day is Sunday (getDay() == 0)
+    if (date.getDay() === 0) {
+        // Sunday: endOfWeek is the date itself
+        endOfWeek = new Date(date);
+        startOfWeek.setDate(date.getDate() - 6); // Go back 6 days
+    } else {
+        startOfWeek.setDate(date.getDate() - date.getDay() + 1); // Move to Monday
+        endOfWeek.setDate(startOfWeek.getDate() + 6); // Add 6 days to get Sunday
+    }
+
+    // Format dates as YYYY-MM-DD for the input fields
+    var formatDate = (d) => d.toISOString().split("T")[0];
+
+    // Set the values in the input fields
+    document.getElementById("fromDate").value = formatDate(startOfWeek);
+    document.getElementById("toDate").value = formatDate(endOfWeek);
+}
+
+
+function fitEndWeek() {
+    var date = new Date($('#toDate').val());
+
+    var startOfWeek = new Date(date);
+    var endOfWeek = new Date(date);
+
+    if (date.getDay() === 0) {
+        // If it's Sunday, startOfWeek is 6 days before
+        startOfWeek.setDate(date.getDate() - 6);
+    } else {
+        startOfWeek.setDate(date.getDate() - date.getDay() + 1); // Move to Monday
+        endOfWeek.setDate(startOfWeek.getDate() + 6); // Move to Sunday
+    }
+
+    // Format dates as YYYY-MM-DD
+    var formatDate = (d) => d.toISOString().split("T")[0];
+
+    // Update the input fields
+    document.getElementById("fromDate").value = formatDate(startOfWeek);
+    document.getElementById("toDate").value = formatDate(endOfWeek);
+}
+
 
