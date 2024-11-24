@@ -1,0 +1,12 @@
+.settings
+target
+.project
+.classpath
+.factorypath
+release
+bin
+
+/.metadata/
+/tool
+
+
