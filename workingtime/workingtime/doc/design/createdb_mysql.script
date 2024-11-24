@@ -1,3 +1,0 @@
-CREATE database workingtime default character set utf8;
-CREATE user 'workingtime_user'@'%' identified by 'Workingtime@123';
-GRANT ALL PRIVILEGES ON workingtime.* TO 'workingtime_user'@'%';
