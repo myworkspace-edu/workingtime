@@ -62,10 +62,10 @@ public class HandsontableDataController extends BaseController {
 	@ResponseBody
 	public TableStructure getProductTableData(@RequestParam String name, @RequestParam String fromDate,
 			@RequestParam String toDate, HttpSession httpSession, Locale locale) {
-
+		
 		httpSession.setAttribute("fromDate", fromDate);
 		httpSession.setAttribute("toDate", toDate);
-
+		
 		List<Object[]> lstCalendars = teamWorkingCalendarService.getRegisterWorkingCalendarData(name, fromDate, toDate);
 
 		// Fetch localized column headers and widths

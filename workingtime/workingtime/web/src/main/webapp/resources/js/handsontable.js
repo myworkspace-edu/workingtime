@@ -80,8 +80,8 @@ function initTable() {
 		mergeCells: mergeCells,
 		licenseKey: 'non-commercial-and-evaluation',
 		hiddenColumns: {
-	        columns: [9], // Ẩn cột cuối
-	        indicators: false // Không hiển thị biểu tượng mũi tên cho cột ẩn
+	        columns: [9], 
+	        indicators: false 
 	    },
 		plugins: ['HiddenColumns'],
 		cells: function(row, col, prop) {
