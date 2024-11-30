@@ -15,7 +15,7 @@ public class TeamCalendarValidator {
 		// Validate fromDate and toDate
 		Date fromDate = calendarModel.getFromDate();
 		Date toDate = calendarModel.getToDate();
-
+		
 		if (fromDate == null) {
 			log.error("Validation Error: fromDate is null.");
 			return false;
@@ -41,7 +41,7 @@ public class TeamCalendarValidator {
 		boolean atLeastOneValidPair = false;
 
 		// Process rows in pairs
-		for (int rowIndex = 0; rowIndex < data.size(); rowIndex += 2) {
+		for (int rowIndex = 0; rowIndex < calendarModel.getCountRow(); rowIndex += 2) {
 			if (rowIndex + 1 >= data.size()) {
 				log.debug("Incomplete pair detected at row index: " + rowIndex);
 				continue; // Skip validation for incomplete pair
@@ -81,7 +81,7 @@ public class TeamCalendarValidator {
 
 	private boolean validateRow(Object[] row, int rowIndex) {
 		// Validate that all cells except the 'Section' column (index 1) are non-empty
-		for (int colIndex = 2; colIndex < row.length; colIndex++) {
+		for (int colIndex = 2; colIndex < row.length - 1; colIndex++) {
 			Object cell = row[colIndex];
 			if (cell == null || cell.toString().trim().isEmpty()) {
 				log.error("Validation Error: Empty cell found in row " + rowIndex + ", column " + (colIndex + 1));

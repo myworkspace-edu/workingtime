@@ -1,8 +1,7 @@
 package mks.mws.tool.workingtime.repository;
 
 import java.util.ArrayList;
-
-
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +25,17 @@ public class WorkingCalendarRepository {
 		SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate0).withTableName("wt_teamcal")
 				.usingGeneratedKeyColumns("id");
 
-		Long id;
+		long id;
 		for (TeamWorkingCalendar e : entities) {
-			if (e.getId() == null) {
+			boolean existingUser = existingUser(e.getId());
+			
+			if (existingUser == false) {
 				id = simpleJdbcInsert.executeAndReturnKey(new BeanPropertySqlParameterSource(e)).longValue();
 			} else {
-				update(e);
 				id = e.getId();
+				update(e);
 			}
+			
 			ids.add(id);
 		}
 		return ids;
@@ -45,5 +47,12 @@ public class WorkingCalendarRepository {
 
 		jdbcTemplate0.update(updateSql, e.getFromDate(), e.getToDate(), e.getAccount(), e.getSection(), e.getMon(),
 				e.getTue(), e.getWed(), e.getThur(), e.getFri(), e.getSat(), e.getSun(), e.getNote(), e.getId());
+	}
+	
+	private boolean existingUser(Long id) {
+	    String querySql = "SELECT COUNT(*) FROM wt_teamcal WHERE id = ?";
+	    int count = jdbcTemplate0.queryForObject(querySql, Integer.class, id);
+	    
+	    return count > 0;
 	}
 }

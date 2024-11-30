@@ -88,7 +88,7 @@ public class TeamWorkingCalendarController extends BaseController {
 	@ResponseBody
 	public TableStructure getProductTableData(@RequestParam String fromDate, @RequestParam String toDate,
 			HttpSession httpSession, Locale locale) {
-
+		
 		httpSession.setAttribute("fromDate", fromDate);
 		httpSession.setAttribute("toDate", toDate);
 
@@ -110,14 +110,14 @@ public class TeamWorkingCalendarController extends BaseController {
 	@ResponseBody
 	public ResponseEntity<Map<String, String>> saveCalendarData(@RequestBody CalendarModel calendarModel) {
 		log.debug("Received CalendarModel: {}", calendarModel);
-
+		
 		if (!teamCalendarValidator.validate(calendarModel)) {
 			log.error("Invalid input data. Data not saved.");
 			Map<String, String> errorResponse = new HashMap<>();
 			errorResponse.put("message", "Error: Invalid input data. Data not saved.");
 			return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
 		}
-
+		
 		try {
 			teamWorkingCalendarService.saveTeamWorkingCalendarData(calendarModel.getFromDate(),
 					calendarModel.getToDate(), calendarModel.getData());

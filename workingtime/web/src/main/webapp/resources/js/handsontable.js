@@ -1,6 +1,7 @@
 /**
  * Processing events of search OKR by emails.
  */
+
 $(document).ready(function() {
 	loadTableData();
 
@@ -78,6 +79,11 @@ function initTable() {
 		contextMenu: true,
 		mergeCells: mergeCells,
 		licenseKey: 'non-commercial-and-evaluation',
+		hiddenColumns: {
+	        columns: [9], 
+	        indicators: false 
+	    },
+		plugins: ['HiddenColumns'],
 		cells: function(row, col, prop) {
 			var cellProperties = {};
 
@@ -139,7 +145,7 @@ function saveTableData() {
 	// Check for empty cells and 'N' in the table, and validate cell values
 	for (var i = 0; i < data.length; i++) {
 		if (data[i][0] !== null && data[i][0] !== "") {
-			for (var j = 0; j < data[i].length; j++) {
+			for (var j = 0; j < data[i].length - 1; j++) {
 				var cellValue = data[i][j];
 				if (!cellValue) {
 					displayError(errorMessages.ALL_CELLS_FILLED);
@@ -171,7 +177,8 @@ function saveTableData() {
 		colHeaders: colHeaders,
 		data: data,
 		colWidths: colWidths,   
-        colHeaders: colHeaders 
+        colHeaders: colHeaders,
+		countRow: countRowsWithDataInColumn0()
 	};
 
 	$.ajax({
@@ -197,3 +204,16 @@ function isSectionColumn(columnIndex) {
 	return columnIndex === 0 || columnIndex === 1;
 }
 
+function countRowsWithDataInColumn0() {
+    var data = hotCalendar.getData(); 
+    var count = 0;
+
+    for (var i = 0; i < data.length; i++) {
+        if (data[i][0] !== null && data[i][0].trim() !== "") {
+            count++;
+        }
+    }
+
+    console.log("Row count validate: ", count);
+    return parseInt(count)*2;
+}
