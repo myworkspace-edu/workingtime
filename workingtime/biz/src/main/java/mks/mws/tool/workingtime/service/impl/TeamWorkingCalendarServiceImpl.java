@@ -69,7 +69,7 @@ public class TeamWorkingCalendarServiceImpl implements TeamWorkingCalendarServic
     public List<Object[]> getRegisterWorkingCalendarData(String name, String fromDate, String toDate) {
         Date from = convertToDate(fromDate);
         Date to = convertToDate(toDate);
-
+        
         if (from == null || to == null) {
             return new ArrayList<>(); // Return empty list if date conversion failed
         }
@@ -88,7 +88,7 @@ public class TeamWorkingCalendarServiceImpl implements TeamWorkingCalendarServic
     }
 
     private Object[] convertToRegisterDataArray(TeamWorkingCalendar data) {
-        return new Object[] { data.getSection(), data.getMon(), data.getTue(), data.getWed(), data.getThur(),
+        return new Object[] { data.getId(), data.getSection(), data.getMon(), data.getTue(), data.getWed(), data.getThur(),
                 data.getFri(), data.getSat(), data.getSun() };
     }
 
@@ -123,8 +123,8 @@ public class TeamWorkingCalendarServiceImpl implements TeamWorkingCalendarServic
     }
 
     private Object[] convertToDataArray(TeamWorkingCalendar data) {
-        return new Object[] { data.getAccount(), data.getSection(), data.getMon(), data.getTue(), data.getWed(),
-                data.getThur(), data.getFri(), data.getSat(), data.getSun() };
+        return new Object[] {data.getAccount(), data.getSection(), data.getMon(), data.getTue(), data.getWed(),
+                data.getThur(), data.getFri(), data.getSat(), data.getSun(), data.getId()};
     }
 
     private List<TeamWorkingCalendar> convertToTeamWorkingCalendars(Date from, Date to, List<Object[]> data) {
@@ -134,7 +134,7 @@ public class TeamWorkingCalendarServiceImpl implements TeamWorkingCalendarServic
         TeamWorkingCalendar calendar;
         for (Object[] row : data) {
             account = (String) row[0];
-            if (account != null && !account.trim().isEmpty() && row.length >= 9) {
+            if (account != null && !account.trim().isEmpty() && row.length >= 8) {
                 calendar = new TeamWorkingCalendar();
                 calendar.setFromDate(from);
                 calendar.setToDate(to);
@@ -147,6 +147,12 @@ public class TeamWorkingCalendarServiceImpl implements TeamWorkingCalendarServic
                 calendar.setFri((String) row[6]);
                 calendar.setSat((String) row[7]);
                 calendar.setSun((String) row[8]);
+                Object idObject = (row.length == 10) ? row[9] : null; 
+                if (idObject != null) {
+                	calendar.setId(((Double) idObject).longValue());
+                } else {
+                    calendar.setId(null); 
+                }
                 calendars.add(calendar);
             } else {
                 log.warn("Data row has insufficient length: {}", row.length);
@@ -157,6 +163,7 @@ public class TeamWorkingCalendarServiceImpl implements TeamWorkingCalendarServic
 
     @Override
     public void saveRegisterWorkingCalendarData(String name, Date fromDate, Date toDate, List<Object[]> teamWorkingCalendarData, String note) {
+    	System.out.println(1);
         List<TeamWorkingCalendar> calendars = new ArrayList<>();
         for (Object[] row : teamWorkingCalendarData) {
             TeamWorkingCalendar data = new TeamWorkingCalendar();

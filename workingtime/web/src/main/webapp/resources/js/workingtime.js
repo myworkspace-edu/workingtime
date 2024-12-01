@@ -158,6 +158,7 @@ function initTable() {
 
 
 function saveTableData() {
+	var id = $('#id').val();
 	var fromDate = $('#fromDate').val();
 	var toDate = $('#toDate').val();
 	var name = $('#name').val();
@@ -235,6 +236,7 @@ function saveTableData() {
 
     // Tạo đối tượng `registerCalendarModel`
     var registerCalendarModel = {
+		id: id,
         name: name,
         fromDate: fromDate,
         toDate: toDate,
@@ -271,4 +273,3 @@ function saveTableData() {
 function isSectionColumn(columnIndex) {
 	return columnIndex === 0 || columnIndex === 1;
 }
-
