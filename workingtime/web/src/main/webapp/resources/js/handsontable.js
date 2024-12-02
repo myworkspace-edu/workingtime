@@ -80,7 +80,7 @@ function initTable() {
 		mergeCells: mergeCells,
 		licenseKey: 'non-commercial-and-evaluation',
 		hiddenColumns: {
-	        columns: [9], 
+	        columns: [12], 
 	        indicators: false 
 	    },
 		plugins: ['HiddenColumns'],
@@ -147,8 +147,8 @@ function saveTableData() {
 		if (data[i][0] !== null && data[i][0] !== "") {
 			for (var j = 0; j < data[i].length - 1; j++) {
 				var cellValue = data[i][j];
-				// bỏ qua cột note, from date, to date
-				if (j !== data[i].length - 1 && j !== data[i].length - 2 && j !== data[i].length - 3) {
+				// bỏ qua cột note, from date, to date, id
+				if (j !== data[i].length - 1 && j !== data[i].length - 2 && j !== data[i].length - 3 && j !== data[i].length - 4) {
 					if (!cellValue) {
 						displayError(errorMessages.ALL_CELLS_FILLED);
 						return;
