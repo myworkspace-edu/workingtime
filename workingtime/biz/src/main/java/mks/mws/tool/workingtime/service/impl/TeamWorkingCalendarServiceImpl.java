@@ -123,8 +123,8 @@ public class TeamWorkingCalendarServiceImpl implements TeamWorkingCalendarServic
     }
 
     private Object[] convertToDataArray(TeamWorkingCalendar data) {
-        return new Object[] {data.getAccount(), data.getSection(), data.getMon(), data.getTue(), data.getWed(),
-                data.getThur(), data.getFri(), data.getSat(), data.getSun(), data.getId()};
+        return new Object[] { data.getAccount(), data.getSection(), data.getMon(), data.getTue(), data.getWed(),
+                data.getThur(), data.getFri(), data.getSat(), data.getSun(), data.getNote(), data.getFromDate(), data.getToDate(), data.getId()};
     }
 
     private List<TeamWorkingCalendar> convertToTeamWorkingCalendars(Date from, Date to, List<Object[]> data) {
@@ -134,7 +134,7 @@ public class TeamWorkingCalendarServiceImpl implements TeamWorkingCalendarServic
         TeamWorkingCalendar calendar;
         for (Object[] row : data) {
             account = (String) row[0];
-            if (account != null && !account.trim().isEmpty() && row.length >= 8) {
+            if (account != null && !account.trim().isEmpty() && row.length >= 13) {
                 calendar = new TeamWorkingCalendar();
                 calendar.setFromDate(from);
                 calendar.setToDate(to);
@@ -147,12 +147,13 @@ public class TeamWorkingCalendarServiceImpl implements TeamWorkingCalendarServic
                 calendar.setFri((String) row[6]);
                 calendar.setSat((String) row[7]);
                 calendar.setSun((String) row[8]);
-                Object idObject = (row.length == 10) ? row[9] : null; 
+                Object idObject = (row.length == 13) ? row[12] : null; 
                 if (idObject != null) {
                 	calendar.setId(((Double) idObject).longValue());
                 } else {
                     calendar.setId(null); 
                 }
+                calendar.setNote((String) row[9]); // Lưu giá trị của cột note
                 calendars.add(calendar);
             } else {
                 log.warn("Data row has insufficient length: {}", row.length);

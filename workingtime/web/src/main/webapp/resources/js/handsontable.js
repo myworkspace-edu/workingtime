@@ -147,17 +147,21 @@ function saveTableData() {
 		if (data[i][0] !== null && data[i][0] !== "") {
 			for (var j = 0; j < data[i].length - 1; j++) {
 				var cellValue = data[i][j];
-				if (!cellValue) {
-					displayError(errorMessages.ALL_CELLS_FILLED);
-					return;
+				// bỏ qua cột note, from date, to date
+				if (j !== data[i].length - 1 && j !== data[i].length - 2 && j !== data[i].length - 3) {
+					if (!cellValue) {
+						displayError(errorMessages.ALL_CELLS_FILLED);
+						return;
+					}
+					if (!isSectionColumn(j) && cellValue.toString().toUpperCase() !== 'Y' && cellValue.toString().toUpperCase() !== 'N') {
+						displayError(errorMessages.INVALID_CELL_VALUE);
+						return;
+					}
+					if (cellValue.toString().toLowerCase() === 'n') {
+						hasN = true;
+					}
 				}
-				if (!isSectionColumn(j) && cellValue.toString().toUpperCase() !== 'Y' && cellValue.toString().toUpperCase() !== 'N') {
-					displayError(errorMessages.INVALID_CELL_VALUE);
-					return;
-				}
-				if (cellValue.toString().toLowerCase() === 'n') {
-					hasN = true;
-				}
+				
 			}
 		}
 	}
