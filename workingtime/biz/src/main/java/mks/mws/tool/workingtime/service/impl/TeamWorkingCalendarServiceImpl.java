@@ -149,7 +149,7 @@ public class TeamWorkingCalendarServiceImpl implements TeamWorkingCalendarServic
                 calendar.setSun((String) row[8]);
                 Object idObject = (row.length == 10) ? row[9] : null; 
                 if (idObject != null) {
-                	calendar.setId(((Double) idObject).longValue());
+                	calendar.setId(((Integer) idObject).longValue());
                 } else {
                     calendar.setId(null); 
                 }
