@@ -19,6 +19,8 @@
 
 package mks.mws.tool.workingtime.controller;
 
+import java.time.LocalDate;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -67,7 +69,9 @@ public class HomeController extends BaseController {
 	 */
 	@RequestMapping(value = {"/", "/home"}, method = RequestMethod.GET)
 	public ModelAndView displayHome(HttpServletRequest request, HttpSession httpSession) {
-	    String fromDate = (String) httpSession.getAttribute("fromDate");
+		LocalDate firstDayOfMonth = LocalDate.now().withDayOfMonth(1);
+	    String fromDate = firstDayOfMonth.toString();
+	    
 	    String toDate = (String) httpSession.getAttribute("toDate");
 
 	    // Lưu lại vào session để sử dụng sau này

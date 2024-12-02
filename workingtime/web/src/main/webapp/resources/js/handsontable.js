@@ -80,7 +80,7 @@ function initTable() {
 		mergeCells: mergeCells,
 		licenseKey: 'non-commercial-and-evaluation',
 		hiddenColumns: {
-	        columns: [9], 
+	        columns: [12], 
 	        indicators: false 
 	    },
 		plugins: ['HiddenColumns'],
@@ -147,17 +147,21 @@ function saveTableData() {
 		if (data[i][0] !== null && data[i][0] !== "") {
 			for (var j = 0; j < data[i].length - 1; j++) {
 				var cellValue = data[i][j];
-				if (!cellValue) {
-					displayError(errorMessages.ALL_CELLS_FILLED);
-					return;
+				// bỏ qua cột note, from date, to date, id
+				if (j !== data[i].length - 1 && j !== data[i].length - 2 && j !== data[i].length - 3 && j !== data[i].length - 4) {
+					if (!cellValue) {
+						displayError(errorMessages.ALL_CELLS_FILLED);
+						return;
+					}
+					if (!isSectionColumn(j) && cellValue.toString().toUpperCase() !== 'Y' && cellValue.toString().toUpperCase() !== 'N') {
+						displayError(errorMessages.INVALID_CELL_VALUE);
+						return;
+					}
+					if (cellValue.toString().toLowerCase() === 'n') {
+						hasN = true;
+					}
 				}
-				if (!isSectionColumn(j) && cellValue.toString().toUpperCase() !== 'Y' && cellValue.toString().toUpperCase() !== 'N') {
-					displayError(errorMessages.INVALID_CELL_VALUE);
-					return;
-				}
-				if (cellValue.toString().toLowerCase() === 'n') {
-					hasN = true;
-				}
+				
 			}
 		}
 	}
@@ -217,3 +221,57 @@ function countRowsWithDataInColumn0() {
     console.log("Row count validate: ", count);
     return parseInt(count)*2;
 }
+
+function exportToExcel() {
+    var data = hotCalendar.getData();
+    var colHeaders = hotCalendar.getColHeader();
+    var hiddenColumns = [12];
+
+    // Loại bỏ cột id
+    var filteredHeaders = colHeaders.filter((header, index) => !hiddenColumns.includes(index));
+    var filteredData = data.map(row => row.filter((_, index) => !hiddenColumns.includes(index)));
+	
+	// Đảm bảo chiều rộng cột được đặt tự động dựa trên độ dài nội dung
+    var colWidths = filteredHeaders.map((header, index) => {
+        var maxLength = filteredData.reduce((max, row) => {
+            var cellLength = row[index] ? row[index].toString().length : 0;
+            return Math.max(max, cellLength);
+        }, header.length);
+        return Math.min(maxLength + 2, 30);
+    });	
+
+    // Chuẩn bị dữ liệu dạng mảng cho Excel
+    var worksheetData = [filteredHeaders];
+    worksheetData = worksheetData.concat(filteredData);
+
+    // Tạo một workbook và worksheet bằng SheetJS
+    var worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
+    var workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Calendar Data");
+	
+	// Áp dụng chiều rộng cột cho worksheet
+    worksheet['!cols'] = colWidths.map(width => ({ wch: width }));
+
+    // Áp dụng định dạng tự động bọc chữ cho tất cả các ô
+    for (var row = 0; row < worksheetData.length; row++) {
+        for (var col = 0; col < worksheetData[row].length; col++) {
+            var cell = worksheet[XLSX.utils.encode_cell({ r: row, c: col })];
+            if (!cell) continue;
+            cell.s = {
+                alignment: {
+                    wrapText: true,
+                    horizontal: 'center',
+                    vertical: 'center'
+                }
+            };
+        }
+    }
+		
+    // Lưu file Excel
+    XLSX.writeFile(workbook, "TeamCalendar.xlsx");
+}
+
+$('#exportExcelBtn').on('click', function() {
+    exportToExcel();
+});
+
