@@ -88,7 +88,7 @@ public class TeamWorkingCalendarServiceImpl implements TeamWorkingCalendarServic
     }
 
     private Object[] convertToRegisterDataArray(TeamWorkingCalendar data) {
-        return new Object[] { data.getId(), data.getSection(), data.getMon(), data.getTue(), data.getWed(), data.getThur(),
+        return new Object[] { data.getSection(), data.getMon(), data.getTue(), data.getWed(), data.getThur(),
                 data.getFri(), data.getSat(), data.getSun() };
     }
 
