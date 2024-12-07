@@ -12,6 +12,11 @@ $(document).ready(function() {
 	//    $('#loadDataBtn').on('click', function() {
 	//        loadTableData();
 	//    });
+		
+	$('#toDate').on('change', function() {
+				updateToDateEndOfMonth()
+	})
+		
 	$('#fromDate, #toDate').on('change', function() {
 		loadTableData();
 	});
@@ -319,4 +324,20 @@ function exportToExcel() {
 $('#exportExcelBtn').on('click', function() {
     exportToExcel();
 });
+
+
+function updateToDateEndOfMonth() {
+    // Lấy giá trị từ fromDate
+    var date = new Date($('#fromDate').val());
+
+    // Xác định ngày cuối cùng của tháng
+    var endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+    // Format ngày theo định dạng YYYY-MM-DD
+    var formatDate = (d) => d.toISOString().split("T")[0];
+
+    // Cập nhật giá trị của toDate
+    document.getElementById("toDate").value = formatDate(endOfMonth);
+}
+
 
