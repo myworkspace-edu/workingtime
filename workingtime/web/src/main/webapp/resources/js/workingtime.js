@@ -95,7 +95,7 @@ function loadTableData() {
 					colWidths: res.colWidths,
 					data: [
 						["AM", "", "", "", "", "", "", ""],
-						["PM", "", "", "", "", "", "", ""]
+						["PM", "", "", "", "", "", "", ""],
 					]
 				};
 				tblCalendarColHeaders = tblCalendarData.colHeaders;
