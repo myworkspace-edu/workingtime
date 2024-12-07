@@ -13,12 +13,10 @@ $(document).ready(function() {
 	//        loadTableData();
 	//    });
 		
-	$('#toDate').on('change', function() {
-				updateToDateEndOfMonth()
-	})
 		
 	$('#fromDate, #toDate').on('change', function() {
 		loadTableData();
+		updateToDateEndOfMonth()
 	});
 });
 
@@ -331,7 +329,7 @@ function updateToDateEndOfMonth() {
     var date = new Date($('#fromDate').val());
 
     // Xác định ngày cuối cùng của tháng
-    var endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    var endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 1);
 
     // Format ngày theo định dạng YYYY-MM-DD
     var formatDate = (d) => d.toISOString().split("T")[0];
