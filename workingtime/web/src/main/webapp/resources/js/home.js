@@ -139,10 +139,10 @@ function initTable() {
 
                // Nếu cột nằm trong phạm vi cần in hoa (ví dụ: cột 1 đến cột 7)
                if (col >= 1 && col <= 7 && newValue !== null && newValue !== undefined) {
-                   change[3] = newValue.toString().toUpperCase(); // Chuyển sang chữ in hoa
+               	   change[3] = newValue.toString().toUpperCase(); // Chuyển sang chữ in hoa
                }
            });
-       },
+		},
 		
 		cells: function(row, col, prop) {
 			var cellProperties = {};
@@ -179,6 +179,7 @@ function initTable() {
 
 			return cellProperties;
 		},
+
 	});
 }
 

@@ -69,8 +69,7 @@ public class HandsontableDataController extends BaseController {
 		List<Object[]> lstCalendars = teamWorkingCalendarService.getRegisterWorkingCalendarData(name, fromDate, toDate);
 
 		// Fetch localized column headers and widths
-		String[] calendarListColHeaders = messageSource.getMessage("registerCalendarList.colHeaders", null, locale)
-				.split(",");
+		String[] calendarListColHeaders = messageSource.getMessage("registerCalendarList.colHeaders", null, locale).split(",");
 
 		TableStructure productTable = new TableStructure(calendarListColWidths, calendarListColHeaders, lstCalendars);
 		

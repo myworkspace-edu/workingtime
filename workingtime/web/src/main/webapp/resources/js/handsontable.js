@@ -63,7 +63,6 @@ function initTable() {
 			});
 		}
 	}
-
 	hotCalendar = new Handsontable(container, {
 		data: tblCalendarData.data,
 		colHeaders: tblCalendarData.colHeaders,
@@ -84,6 +83,19 @@ function initTable() {
 	        indicators: false 
 	    },
 		plugins: ['HiddenColumns'],
+		
+		beforeChange: function (changes) {
+           // `changes` is an array of [row, column, oldValue, newValue]
+           changes.forEach(function (change) {
+               const [row, col, oldValue, newValue] = change;
+
+               // Nếu cột nằm trong phạm vi cần in hoa (ví dụ: cột 1 đến cột 7)
+               if (col >= 1 && col <= 8 && newValue !== null && newValue !== undefined) {
+                   change[3] = newValue.toString().toUpperCase(); // Chuyển sang chữ in hoa
+               }
+           });
+       },
+		
 		cells: function(row, col, prop) {
 			var cellProperties = {};
 
