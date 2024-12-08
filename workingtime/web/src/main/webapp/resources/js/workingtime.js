@@ -96,6 +96,7 @@ function loadTableData() {
 					data: [
 						["AM", "", "", "", "", "", "", ""],
 						["PM", "", "", "", "", "", "", ""],
+						["Ni", "", "", "", "", "", "", ""]
 					]
 				};
 				tblCalendarColHeaders = tblCalendarData.colHeaders;
@@ -119,7 +120,7 @@ function initTable() {
 		height: 90,
 		rowHeaders: true,
 		minRows: 1,
-		maxRows: 2,
+		maxRows: 3,
 		currentRowClassName: 'currentRow',
 		currentColClassName: 'currentCol',
 		manualColumnResize: true,
@@ -131,7 +132,7 @@ function initTable() {
 			var cellProperties = {};
 
 			// set read-only cho cột section
-			if (col === 0 && (row === 0 || row === 1)) {
+			if (col === 0) {
 				cellProperties.readOnly = true;
 
 				// Apply custom renderer for styling
