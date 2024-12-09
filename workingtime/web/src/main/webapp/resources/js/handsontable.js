@@ -61,7 +61,7 @@ function initTable() {
 			mergeCells.push({
 				row: row,
 				col: 0,
-				rowspan: 2,
+				rowspan: 3,
 				colspan: 1
 			});
 		}
