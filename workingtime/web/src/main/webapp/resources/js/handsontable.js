@@ -12,8 +12,11 @@ $(document).ready(function() {
 	//    $('#loadDataBtn').on('click', function() {
 	//        loadTableData();
 	//    });
+		
+		
 	$('#fromDate, #toDate').on('change', function() {
 		loadTableData();
+		updateToDateEndOfMonth()
 	});
 });
 
@@ -58,12 +61,18 @@ function initTable() {
 			mergeCells.push({
 				row: row,
 				col: 0,
-				rowspan: 2,
+				rowspan: 3,
 				colspan: 1
 			});
 		}
 	}
-
+	
+	// chuyển đổi ngày cho cột from và to
+    for (var i = 0; i < tblCalendarData.data.length; i++) {
+        tblCalendarData.data[i][10] = formatDate(tblCalendarData.data[i][10]);
+        tblCalendarData.data[i][11] = formatDate(tblCalendarData.data[i][11]);
+    }
+		
 	hotCalendar = new Handsontable(container, {
 		data: tblCalendarData.data,
 		colHeaders: tblCalendarData.colHeaders,
@@ -84,6 +93,19 @@ function initTable() {
 	        indicators: false 
 	    },
 		plugins: ['HiddenColumns'],
+		
+		beforeChange: function (changes) {
+           // `changes` is an array of [row, column, oldValue, newValue]
+           changes.forEach(function (change) {
+               const [row, col, oldValue, newValue] = change;
+
+               // Nếu cột nằm trong phạm vi cần in hoa (ví dụ: cột 1 đến cột 7)
+               if (col >= 1 && col <= 8 && newValue !== null && newValue !== undefined) {
+                   change[3] = newValue.toString().toUpperCase(); // Chuyển sang chữ in hoa
+               }
+           });
+       },
+		
 		cells: function(row, col, prop) {
 			var cellProperties = {};
 
@@ -230,48 +252,120 @@ function exportToExcel() {
     // Loại bỏ cột id
     var filteredHeaders = colHeaders.filter((header, index) => !hiddenColumns.includes(index));
     var filteredData = data.map(row => row.filter((_, index) => !hiddenColumns.includes(index)));
-	
-	// Đảm bảo chiều rộng cột được đặt tự động dựa trên độ dài nội dung
-    var colWidths = filteredHeaders.map((header, index) => {
+
+    // loại bỏ các hàng am và pm dư thừa
+    filteredData = filteredData.filter(row => {
+        if ((row[1] === "AM" || row[1] === "PM") && row.slice(2).every(cell => !cell)) {
+            return false;
+        }
+        return true;
+    });
+
+    // Tạo workbook và worksheet
+    var workbook = new ExcelJS.Workbook();
+    var worksheet = workbook.addWorksheet("Calendar Data");
+
+    // chiều rộng cột được đặt tự động dựa trên độ dài nội dung
+    filteredHeaders.forEach((header, index) => {
         var maxLength = filteredData.reduce((max, row) => {
             var cellLength = row[index] ? row[index].toString().length : 0;
             return Math.max(max, cellLength);
         }, header.length);
-        return Math.min(maxLength + 2, 30);
-    });	
+        worksheet.getColumn(index + 1).width = Math.min(maxLength + 2, 30);
+    });
 
-    // Chuẩn bị dữ liệu dạng mảng cho Excel
-    var worksheetData = [filteredHeaders];
-    worksheetData = worksheetData.concat(filteredData);
+    // Thêm tiêu đề vào worksheet
+    worksheet.addRow(filteredHeaders);
 
-    // Tạo một workbook và worksheet bằng SheetJS
-    var worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
-    var workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Calendar Data");
-	
-	// Áp dụng chiều rộng cột cho worksheet
-    worksheet['!cols'] = colWidths.map(width => ({ wch: width }));
+    // Thêm dữ liệu vào worksheet
+    filteredData.forEach(row => {
+        worksheet.addRow(row);
+    });
 
-    // Áp dụng định dạng tự động bọc chữ cho tất cả các ô
-    for (var row = 0; row < worksheetData.length; row++) {
-        for (var col = 0; col < worksheetData[row].length; col++) {
-            var cell = worksheet[XLSX.utils.encode_cell({ r: row, c: col })];
-            if (!cell) continue;
-            cell.s = {
-                alignment: {
-                    wrapText: true,
-                    horizontal: 'center',
-                    vertical: 'center'
+    // Gộp các ô trong cột Account
+    let currentMergeStart = null;
+    worksheet.eachRow((row, rowIndex) => {
+        if (rowIndex > 1) { // Bỏ qua hàng tiêu đề
+            let accountCell = row.getCell(1); // Cột Account
+            if (!accountCell.value) {
+                // Nếu ô trống, thuộc cùng nhóm với hàng trước
+                if (!currentMergeStart) {
+                    currentMergeStart = rowIndex - 1;
                 }
-            };
+            } else {
+                // Nếu ô không trống, kiểm tra có cần gộp hàng trước đó không
+                if (currentMergeStart !== null) {
+                    worksheet.mergeCells(currentMergeStart, 1, rowIndex - 1, 1);
+                    currentMergeStart = null;
+                }
+                currentMergeStart = rowIndex; // Bắt đầu nhóm mới
+            }
         }
-    }
-		
+    });
+	// Gộp nhóm cuối nếu cần và nếu nhóm đó hợp lệ
+	if (currentMergeStart !== null && currentMergeStart + 1 <= worksheet.rowCount) {
+	    worksheet.mergeCells(currentMergeStart, 1, currentMergeStart + 1, 1);
+	}
+
+    // Áp dụng định dạng cho tất cả các ô
+    worksheet.eachRow((row, rowIndex) => {
+        row.eachCell((cell, colIndex) => {
+            // Căn giữa
+            cell.alignment = { vertical: 'middle', horizontal: 'center', wrapText: true };
+            cell.border = {
+                top: { style: 'thin' },
+                left: { style: 'thin' },
+                bottom: { style: 'thin' },
+                right: { style: 'thin' }
+            };
+			
+			cell.font = { size: 12 };
+
+            if (rowIndex === 1) {
+                cell.font = { size: 12, bold: true };
+            }
+        });
+    });
+
     // Lưu file Excel
-    XLSX.writeFile(workbook, "TeamCalendar.xlsx");
+    workbook.xlsx.writeBuffer().then(function(buffer) {
+        var blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        var link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = "TeamCalendar.xlsx";
+        link.click();
+    });
 }
+
 
 $('#exportExcelBtn').on('click', function() {
     exportToExcel();
 });
 
+
+function updateToDateEndOfMonth() {
+    // Lấy giá trị từ fromDate
+    var date = new Date($('#fromDate').val());
+
+    // Xác định ngày cuối cùng của tháng
+    var endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+
+    // Format ngày theo định dạng YYYY-MM-DD
+    var formatDate = (d) => d.toISOString().split("T")[0];
+
+    // Cập nhật giá trị của toDate
+    document.getElementById("toDate").value = formatDate(endOfMonth);
+}
+
+
+// Hàm formatDate để định dạng ngày theo MM/DD/YYYY
+function formatDate(date) {
+    if (!date || isNaN(new Date(date))) {
+        return '';  // Trả về chuỗi rỗng nếu ngày không hợp lệ
+    }
+    const d = new Date(date);
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    const year = d.getFullYear();
+    return `${month}/${day}/${year}`;
+}

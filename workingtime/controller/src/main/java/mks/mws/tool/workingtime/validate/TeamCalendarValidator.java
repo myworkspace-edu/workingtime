@@ -38,45 +38,66 @@ public class TeamCalendarValidator {
 			return false;
 		}
 
-		boolean atLeastOneValidPair = false;
+//		boolean atLeastOneValidPair = false;
+//
+//		// Process rows in pairs
+//		for (int rowIndex = 0; rowIndex < calendarModel.getCountRow(); rowIndex += 2) {
+//			if (rowIndex + 1 >= data.size()) {
+//				log.debug("Incomplete pair detected at row index: " + rowIndex);
+//				continue; // Skip validation for incomplete pair
+//			}
+//
+//			Object[] row1 = data.get(rowIndex);
+//			Object[] row2 = data.get(rowIndex + 1);
+//
+//			// Log rows for debugging
+//			log.debug("Row " + (rowIndex + 1) + ": " + Arrays.toString(row1));
+//			log.debug("Row " + (rowIndex + 2) + ": " + Arrays.toString(row2));
+//
+//			boolean validPair = true;
+//
+//			// Validate each row in the pair
+//			if (!validateRow(row1, rowIndex + 1)) {
+//				validPair = false;
+//			}
+//
+//			if (!validateRow(row2, rowIndex + 2)) {
+//				validPair = false;
+//			}
+//
+//			if (validPair) {
+//				atLeastOneValidPair = true;
+//			}
+//		}
+//
+//		if (!atLeastOneValidPair) {
+//			log.error("Validation Error: No valid row pairs found.");
+//			return false;
+//		}
+//
+//		log.info("Validation successful: At least one valid row pair is found.");
+//		return true;
+		
+		// Validate each row individually
+        for (int rowIndex = 0; rowIndex < calendarModel.getCountRow(); rowIndex++) {
+            if (rowIndex >= data.size()) {
+                log.debug("Skipping validation for incomplete row at index: " + rowIndex);
+                continue;
+            }
 
-		// Process rows in pairs
-		for (int rowIndex = 0; rowIndex < calendarModel.getCountRow(); rowIndex += 2) {
-			if (rowIndex + 1 >= data.size()) {
-				log.debug("Incomplete pair detected at row index: " + rowIndex);
-				continue; // Skip validation for incomplete pair
-			}
+            Object[] row = data.get(rowIndex);
 
-			Object[] row1 = data.get(rowIndex);
-			Object[] row2 = data.get(rowIndex + 1);
+            // Log row for debugging
+            log.debug("Row " + (rowIndex + 1) + ": " + Arrays.toString(row));
 
-			// Log rows for debugging
-			log.debug("Row " + (rowIndex + 1) + ": " + Arrays.toString(row1));
-			log.debug("Row " + (rowIndex + 2) + ": " + Arrays.toString(row2));
+            // Validate the row
+            if (!validateRow(row, rowIndex + 1)) {
+                return false;
+            }
+        }
 
-			boolean validPair = true;
-
-			// Validate each row in the pair
-			if (!validateRow(row1, rowIndex + 1)) {
-				validPair = false;
-			}
-
-			if (!validateRow(row2, rowIndex + 2)) {
-				validPair = false;
-			}
-
-			if (validPair) {
-				atLeastOneValidPair = true;
-			}
-		}
-
-		if (!atLeastOneValidPair) {
-			log.error("Validation Error: No valid row pairs found.");
-			return false;
-		}
-
-		log.info("Validation successful: At least one valid row pair is found.");
-		return true;
+        log.info("Validation successful: All rows are valid.");
+        return true;
 	}
 
 	private boolean validateRow(Object[] row, int rowIndex) {
@@ -85,7 +106,8 @@ public class TeamCalendarValidator {
 			Object cell = row[colIndex];
 			if (cell == null || cell.toString().trim().isEmpty()) {
 				log.error("Validation Error: Empty cell found in row " + rowIndex + ", column " + (colIndex + 1));
-				return false;
+//				return false;
+				continue; // Bỏ qua ô này
 			}
 
 			// Validate only 'Y/y/N/n' values are allowed
