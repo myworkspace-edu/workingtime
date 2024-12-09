@@ -18,7 +18,74 @@ $(document).ready(function() {
 		loadTableData();
 		updateToDateEndOfMonth()
 	});
+	
+	$('#loadPreviousMonthBtn').on('click', function () {
+			loadPreviousMonthData();
+	});
 });
+
+// Hàm load dữ liệu tháng trước
+function loadPreviousMonthData() {
+    var fromDate = $('#fromDate').val();
+
+    if (!fromDate) {
+        displayError("Vui lòng chọn ngày bắt đầu trước khi lấy dữ liệu tháng trước.");
+        return;
+    }
+
+    var currentFromDate = new Date(fromDate);
+    // Tính toán khoảng thời gian tháng trước
+    var previousMonthStart = new Date(currentFromDate.getFullYear(), currentFromDate.getMonth() - 1, 1); // Ngày đầu tháng trước
+    var previousMonthEnd = new Date(currentFromDate.getFullYear(), currentFromDate.getMonth(), 0); // Ngày cuối tháng trước
+
+    // Lấy ngày cuối tháng của tháng hiện tại
+    var lastDayOfMonth = new Date(currentFromDate.getFullYear(), currentFromDate.getMonth() + 1, 0);
+    var formattedStartDate = formatDate(previousMonthStart);
+    var formattedEndDate = formatDate(previousMonthEnd);
+    var formattedLastDay = formatDate(lastDayOfMonth);
+
+    if (hotCalendar && hotCalendar.getData().length > 0) {
+        swal({
+            title: "Bạn có chắc không?",
+            text: "Nếu bạn tiếp tục, dữ liệu hiện tại sẽ bị thay thế.",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willLoad) => {
+            if (willLoad) {
+                $.ajax({
+                    url: _ctx + 'teamcalendar/loaddata',
+                    type: 'GET',
+                    dataType: 'json',
+                    data: {
+                        fromDate: formattedStartDate,
+                        toDate: formattedEndDate
+                    },
+                    success: function (res) {
+                        console.log("Dữ liệu tháng trước:", res);
+                        if (res) {
+                            hotCalendar.loadData(res.data);
+                            for (var i = 0; i < res.data.length; i++) {
+                                res.data[i][10] = formatDate2(res.data[i][10]);
+                                res.data[i][11] = formatDate2(res.data[i][11]);
+                            }
+                            $('#fromDate').val(fromDate); // Giữ nguyên ngày fromDate đã chọn
+                            $('#toDate').val(formattedLastDay); // Cập nhật toDate là ngày cuối của tháng hiện tại
+                        }
+                    },
+                    error: function (e) {
+                        console.log("Error: ", e);
+                        displayError("Không thể tải dữ liệu tháng trước.");
+                    }
+                });
+            } else {
+                // Nếu người dùng không đồng ý, không làm gì
+                swal("Dữ liệu hiện tại vẫn được giữ lại!");
+            }
+        });
+    }
+}
 
 /**
  * Load column width, header, initTable()

@@ -134,7 +134,7 @@ public class TeamWorkingCalendarServiceImpl implements TeamWorkingCalendarServic
         TeamWorkingCalendar calendar;
         for (Object[] row : data) {
             account = (String) row[0];
-            if (account != null && !account.trim().isEmpty() && row.length >= 13) {
+            if (account != null && !account.trim().isEmpty() && row.length >= 12) {
                 calendar = new TeamWorkingCalendar();
                 calendar.setFromDate(from);
                 calendar.setToDate(to);
