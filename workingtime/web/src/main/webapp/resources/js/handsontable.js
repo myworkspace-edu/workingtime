@@ -66,7 +66,13 @@ function initTable() {
 			});
 		}
 	}
-
+	
+	// chuyển đổi ngày cho cột from và to
+    for (var i = 0; i < tblCalendarData.data.length; i++) {
+        tblCalendarData.data[i][10] = formatDate(tblCalendarData.data[i][10]);
+        tblCalendarData.data[i][11] = formatDate(tblCalendarData.data[i][11]);
+    }
+		
 	hotCalendar = new Handsontable(container, {
 		data: tblCalendarData.data,
 		colHeaders: tblCalendarData.colHeaders,
@@ -352,3 +358,14 @@ function updateToDateEndOfMonth() {
 }
 
 
+// Hàm formatDate để định dạng ngày theo MM/DD/YYYY
+function formatDate(date) {
+    if (!date || isNaN(new Date(date))) {
+        return '';  // Trả về chuỗi rỗng nếu ngày không hợp lệ
+    }
+    const d = new Date(date);
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    const year = d.getFullYear();
+    return `${month}/${day}/${year}`;
+}
