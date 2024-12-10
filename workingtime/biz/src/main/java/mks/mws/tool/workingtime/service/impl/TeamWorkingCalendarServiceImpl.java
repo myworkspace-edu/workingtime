@@ -134,7 +134,7 @@ public class TeamWorkingCalendarServiceImpl implements TeamWorkingCalendarServic
         TeamWorkingCalendar calendar;
         for (Object[] row : data) {
             account = (String) row[0];
-            if (account != null && !account.trim().isEmpty() && row.length >= 13) {
+            if (account != null && !account.trim().isEmpty() && row.length >= 12) {
                 calendar = new TeamWorkingCalendar();
                 calendar.setFromDate(from);
                 calendar.setToDate(to);
@@ -149,7 +149,7 @@ public class TeamWorkingCalendarServiceImpl implements TeamWorkingCalendarServic
                 calendar.setSun((String) row[8]);
                 Object idObject = (row.length == 13) ? row[12] : null; 
                 if (idObject != null) {
-                	calendar.setId(((Double) idObject).longValue());
+                	calendar.setId(((Integer) idObject).longValue());
                 } else {
                     calendar.setId(null); 
                 }

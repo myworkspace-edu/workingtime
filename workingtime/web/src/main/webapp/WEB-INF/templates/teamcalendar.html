@@ -13,6 +13,7 @@
 	href="/library/webjars/handsontable/handsontable.full.min.css" />
 <link rel="stylesheet" type="text/css"
 	th:href="@{/resources/css/register/teamview.css}" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.css">
 </head>
 <body>
 	<div th:replace="~{fragments/header :: header}">Header</div>
@@ -21,6 +22,7 @@
 	<th:block th:include="fragments/frg_handsontable"></th:block>
 
 	<div class="text-center">
+		<br>
 		<button class="btn btn-primary" id="saveDataBtn"
 			th:text="#{save_button}">Save</button>
 		<button class="btn btn-success" id="exportExcelBtn">Excel</button>
@@ -36,6 +38,7 @@
 	<script src="/library/webjars/jquery-ui/1.12.1/jquery-ui.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.3.0/exceljs.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 	
 	<script type="text/javascript"
 		th:src="@{/resources/js/errorMessages.js}"></script>
