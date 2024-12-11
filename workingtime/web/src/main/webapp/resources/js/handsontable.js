@@ -36,14 +36,13 @@ function loadPreviousMonthData() {
     var currentFromDate = new Date(fromDate);
     // Tính toán khoảng thời gian tháng trước
     var previousMonthStart = new Date(currentFromDate.getFullYear(), currentFromDate.getMonth() - 1, 1); // Ngày đầu tháng trước
-    var previousMonthEnd = new Date(currentFromDate.getFullYear(), currentFromDate.getMonth(), 0); // Ngày cuối tháng trước
+    var previousMonthEnd = new Date(currentFromDate.getFullYear(), currentFromDate.getMonth(), 1); // Ngày cuối tháng trước
 
     // Lấy ngày cuối tháng của tháng hiện tại
     var lastDayOfMonth = new Date(currentFromDate.getFullYear(), currentFromDate.getMonth() + 1, 0);
-    var formattedStartDate = formatDate(previousMonthStart);
-    var formattedEndDate = formatDate(previousMonthEnd);
-    var formattedLastDay = formatDate(lastDayOfMonth);
-
+    var formattedStartDate = formatDate2(previousMonthStart);
+    var formattedEndDate = formatDate2(previousMonthEnd);
+    var formattedLastDay = formatDate2(lastDayOfMonth);
     if (hotCalendar && hotCalendar.getData().length > 0) {
         swal({
             title: "Bạn có chắc không?",
@@ -62,13 +61,15 @@ function loadPreviousMonthData() {
                         fromDate: formattedStartDate,
                         toDate: formattedEndDate
                     },
+					contentType: 'application/json',
                     success: function (res) {
                         console.log("Dữ liệu tháng trước:", res);
                         if (res) {
                             hotCalendar.loadData(res.data);
                             for (var i = 0; i < res.data.length; i++) {
-                                res.data[i][10] = formatDate2(res.data[i][10]);
-                                res.data[i][11] = formatDate2(res.data[i][11]);
+                                res.data[i][10] = formatDate(res.data[i][10]);
+                                res.data[i][11] = formatDate(res.data[i][11]);
+								res.data[i][12] = 0;
                             }
                             $('#fromDate').val(fromDate); // Giữ nguyên ngày fromDate đã chọn
                             $('#toDate').val(formattedLastDay); // Cập nhật toDate là ngày cuối của tháng hiện tại
@@ -436,3 +437,17 @@ function formatDate(date) {
     const year = d.getFullYear();
     return `${month}/${day}/${year}`;
 }
+
+function formatDate2(date) {
+    // Format ngày theo kiểu yyyy-MM-dd
+    var d = new Date(date);
+    var month = '' + (d.getMonth() + 1);
+    var day = '' + d.getDate();
+    var year = d.getFullYear();
+
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+
+    return [year, month, day].join('-');
+}
+

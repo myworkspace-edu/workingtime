@@ -154,7 +154,9 @@ public class TeamWorkingCalendarServiceImpl implements TeamWorkingCalendarServic
                     calendar.setId(null); 
                 }
                 calendar.setNote((String) row[9]); // Lưu giá trị của cột note
-                calendars.add(calendar);
+                if((row.length == 13 && calendar.getId() == 0) || row.length == 12) {
+                	calendars.add(calendar);
+                }
             } else {
                 log.warn("Data row has insufficient length: {}", row.length);
             }
