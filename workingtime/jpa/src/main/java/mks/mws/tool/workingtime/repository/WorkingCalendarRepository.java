@@ -21,24 +21,24 @@ public class WorkingCalendarRepository {
 	private JdbcTemplate jdbcTemplate0;
 
 	public List<Long> saveOrUpdate(List<TeamWorkingCalendar> entities) {
-		List<Long> ids = new ArrayList<>();
-		SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate0).withTableName("wt_teamcal")
-				.usingGeneratedKeyColumns("id");
+	    List<Long> ids = new ArrayList<>();
+	    SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate0).withTableName("wt_teamcal")
+	            .usingGeneratedKeyColumns("id");
 
-		long id;
-		for (TeamWorkingCalendar e : entities) {
-			boolean existingUser = existingUser(e.getId());
-			
-			if (existingUser == false) {
-				id = simpleJdbcInsert.executeAndReturnKey(new BeanPropertySqlParameterSource(e)).longValue();
-			} else {
-				id = e.getId();
-				update(e);
-			}
-			
-			ids.add(id);
-		}
-		return ids;
+	    long id;
+	    for (TeamWorkingCalendar e : entities) {
+	        boolean existingUser = existingUser(e.getId());
+
+	        if (existingUser == false) {
+	            id = simpleJdbcInsert.executeAndReturnKey(new BeanPropertySqlParameterSource(e)).longValue();
+	        } else {
+	            id = e.getId();
+	            update(e);
+	        }
+
+	        ids.add(id);
+	    }
+	    return ids;
 	}
 
 	private void update(TeamWorkingCalendar e) {

@@ -89,9 +89,9 @@ function loadTableData() {
 					colHeaders: res.colHeaders || tblCalendarData.colHeaders,
 					colWidths: res.colWidths || tblCalendarData.colWidths,
 					data: [
-						["AM", ...(res.data[0] ? res.data[0].slice(1) : ["", "", "", "", "", "", "", "", ""])],
-						["PM", ...(res.data[1] ? res.data[1].slice(1) : ["", "", "", "", "", "", "", "", ""])],
-						["Ni", ...(res.data[2] ? res.data[2].slice(1) : ["", "", "", "", "", "", "", "", ""])]
+						["AM", ...(res.data[0] ? res.data[0].slice(1) : ["", "", "", "", "", "", "", ""])],
+						["PM", ...(res.data[1] ? res.data[1].slice(1) : ["", "", "", "", "", "", "", ""])],
+						["Night", ...(res.data[2] ? res.data[2].slice(1) : ["", "", "", "", "", "", "", ""])]
 					]
 				};
 			} else {
@@ -100,9 +100,9 @@ function loadTableData() {
 					colHeaders: res.colHeaders,
 					colWidths: res.colWidths,
 					data: [
-						["AM", "", "", "", "", "", "", "", ""],
-						["PM", "", "", "", "", "", "", "", ""],
-						["Ni", "", "", "", "", "", "", "", ""]
+						["AM", "", "", "", "", "", "", ""],
+						["PM", "", "", "", "", "", "", ""],
+						["Night", "", "", "", "", "", "", ""]
 					]
 				};
 				tblCalendarColHeaders = tblCalendarData.colHeaders;

@@ -18,7 +18,7 @@ public class TeamWorkingCalendar {
     @Column(length = 30, nullable = false)
     private String account;
 
-    @Column(length = 2, nullable = false)
+    @Column(length = 5, nullable = false)
     private String section;
 
     @Column(name = "from_date")
