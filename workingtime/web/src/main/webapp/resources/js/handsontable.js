@@ -124,15 +124,16 @@ function initTable() {
 	var mergeCells = [];
 
 	// Kiểm tra và gộp các ô liên tiếp có cùng dữ liệu
-	for (var row = 0; row < tblCalendarData.data.length - 1; row++) {
-		if (tblCalendarData.data[row][0] === tblCalendarData.data[row + 1][0]) {
-			mergeCells.push({
-				row: row,
-				col: 0,
-				rowspan: 3,
-				colspan: 1
-			});
-		}
+	for (var row = 0; row < tblCalendarData.data.length - 2; row++) {
+	    if (tblCalendarData.data[row][0] === tblCalendarData.data[row + 1][0] && tblCalendarData.data[row][0] === tblCalendarData.data[row + 2][0]) {
+	        mergeCells.push({
+	            row: row,
+	            col: 0,
+	            rowspan: 3,
+	            colspan: 1
+	        });
+	        row += 2;
+	    }
 	}
 	
 	// chuyển đổi ngày cho cột from và to
@@ -222,8 +223,9 @@ function saveTableData() {
 		return;
 	}
 
-	for (var row = 1; row < data.length; row += 2) {
+	for (var row = 1; row < data.length; row += 3) {  // Adjusted to skip 3 rows per iteration (AM, PM, Night)
 		data[row][0] = data[row - 1][0];
+		data[row + 1][0] = data[row - 1][0];
 	}
 
 	if (new Date(toDate) <= new Date(fromDate)) {

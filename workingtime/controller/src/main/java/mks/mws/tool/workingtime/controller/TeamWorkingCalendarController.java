@@ -96,7 +96,7 @@ public class TeamWorkingCalendarController extends BaseController {
 		for (int i = 0; i < 6; i++) {
 			lstCalendars.add(new Object[] { "", "AM", "", "", "", "", "", "", "" });
 			lstCalendars.add(new Object[] { "", "PM", "", "", "", "", "", "", "" });
-			lstCalendars.add(new Object[] { "", "Ni", "", "", "", "", "", "", "" });
+			lstCalendars.add(new Object[] { "", "Night", "", "", "", "", "", "", "" });
 		}
 
 		// Lấy headers theo ngôn ngữ hiện tại
