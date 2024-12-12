@@ -40,7 +40,7 @@ public class RegisterCalendarValidator {
         boolean hasN = false;
         for (int rowIndex = 0; rowIndex < registerCalendarModel.getData().size(); rowIndex++) {
             Object[] row = registerCalendarModel.getData().get(rowIndex);
-            for (int colIndex = 0; colIndex < row.length; colIndex++) {
+            for (int colIndex = 0; colIndex < row.length - 2; colIndex++) {
                 Object cell = row[colIndex];
                 String cellValue = cell == null ? "" : cell.toString().trim();
 

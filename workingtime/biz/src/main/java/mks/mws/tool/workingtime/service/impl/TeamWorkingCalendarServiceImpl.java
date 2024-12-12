@@ -89,7 +89,7 @@ public class TeamWorkingCalendarServiceImpl implements TeamWorkingCalendarServic
 
     private Object[] convertToRegisterDataArray(TeamWorkingCalendar data) {
         return new Object[] { data.getSection(), data.getMon(), data.getTue(), data.getWed(), data.getThur(),
-                data.getFri(), data.getSat(), data.getSun() };
+                data.getFri(), data.getSat(), data.getSun(), data.getNote(), data.getId()};
     }
 
     @Override
@@ -182,6 +182,12 @@ public class TeamWorkingCalendarServiceImpl implements TeamWorkingCalendarServic
             data.setSat((String) row[6]);
             data.setSun((String) row[7]);
             data.setNote(note);
+            Object idObject = (row.length == 10) ? row[9] : null; 
+            if (idObject != null) {
+            	data.setId(((Integer) idObject).longValue());
+            } else {
+                data.setId(null); 
+            }
             calendars.add(data);
         }
         saveOrUpdateCalendars(calendars); // Use saveAll if you don't have saveOrUpdate method

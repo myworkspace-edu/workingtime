@@ -89,9 +89,9 @@ function loadTableData() {
 					colHeaders: res.colHeaders || tblCalendarData.colHeaders,
 					colWidths: res.colWidths || tblCalendarData.colWidths,
 					data: [
-						["AM", ...(res.data[0] ? res.data[0].slice(1) : ["", "", "", "", "", "", "", ""])],
-						["PM", ...(res.data[1] ? res.data[1].slice(1) : ["", "", "", "", "", "", "", ""])],
-						["Ni", ...(res.data[2] ? res.data[2].slice(1) : ["", "", "", "", "", "", "", ""])]
+						["AM", ...(res.data[0] ? res.data[0].slice(1) : ["", "", "", "", "", "", "", "", ""])],
+						["PM", ...(res.data[1] ? res.data[1].slice(1) : ["", "", "", "", "", "", "", "", ""])],
+						["Ni", ...(res.data[2] ? res.data[2].slice(1) : ["", "", "", "", "", "", "", "", ""])]
 					]
 				};
 			} else {
@@ -100,9 +100,9 @@ function loadTableData() {
 					colHeaders: res.colHeaders,
 					colWidths: res.colWidths,
 					data: [
-						["AM", "", "", "", "", "", "", ""],
-						["PM", "", "", "", "", "", "", ""],
-						["Ni", "", "", "", "", "", "", ""]
+						["AM", "", "", "", "", "", "", "", ""],
+						["PM", "", "", "", "", "", "", "", ""],
+						["Ni", "", "", "", "", "", "", "", ""]
 					]
 				};
 				tblCalendarColHeaders = tblCalendarData.colHeaders;
@@ -134,7 +134,12 @@ function initTable() {
 		minSpareRows: 1,
 		contextMenu: true,
 		licenseKey: 'non-commercial-and-evaluation',
-		
+		hiddenColumns: {
+	        columns: [8, 9],
+	        indicators: false 
+	    },
+		plugins: ['HiddenColumns'],
+			
 		beforeChange: function (changes) {
            // `changes` is an array of [row, column, oldValue, newValue]
            changes.forEach(function (change) {
@@ -233,7 +238,7 @@ function saveTableData() {
 	// Kiểm tra giá trị của các ô trong bảng
 	var hasN = false;
 	for (var i = 0; i < updatedData.length; i++) {
-		for (var j = 0; j < updatedData[i].length; j++) {
+		for (var j = 0; j < updatedData[i].length - 2; j++) {
 			var cellValue = updatedData[i][j];
 			if (!cellValue) {
 				displayError(errorMessages.ALL_CELLS_FILLED);
