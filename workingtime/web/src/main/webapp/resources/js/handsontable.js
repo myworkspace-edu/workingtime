@@ -323,9 +323,9 @@ function exportToExcel() {
     var filteredHeaders = colHeaders.filter((header, index) => !hiddenColumns.includes(index));
     var filteredData = data.map(row => row.filter((_, index) => !hiddenColumns.includes(index)));
 
-    // loại bỏ các hàng am và pm dư thừa
+	// Loại bỏ các hàng am, pm, night dư thừa
     filteredData = filteredData.filter(row => {
-        if ((row[1] === "AM" || row[1] === "PM") && row.slice(2).every(cell => !cell)) {
+        if ((row[1] === "AM" || row[1] === "PM" || row[1] === "Night") && row.slice(2).every(cell => !cell)) {
             return false;
         }
         return true;
@@ -352,30 +352,36 @@ function exportToExcel() {
         worksheet.addRow(row);
     });
 
-    // Gộp các ô trong cột Account
+	// Gộp các ô trong cột Account theo nhóm 3 hàng (AM, PM, Night)
     let currentMergeStart = null;
+    let mergeCount = 0;
     worksheet.eachRow((row, rowIndex) => {
         if (rowIndex > 1) { // Bỏ qua hàng tiêu đề
             let accountCell = row.getCell(1); // Cột Account
             if (!accountCell.value) {
                 // Nếu ô trống, thuộc cùng nhóm với hàng trước
-                if (!currentMergeStart) {
-                    currentMergeStart = rowIndex - 1;
+                mergeCount++;
+                if (mergeCount === 3) {
+                    // Đủ 3 hàng thì gộp
+                    worksheet.mergeCells(currentMergeStart, 1, rowIndex, 1);
+                    currentMergeStart = null;
+                    mergeCount = 0;
                 }
             } else {
-                // Nếu ô không trống, kiểm tra có cần gộp hàng trước đó không
-                if (currentMergeStart !== null) {
-                    worksheet.mergeCells(currentMergeStart, 1, rowIndex - 1, 1);
-                    currentMergeStart = null;
+                // Nếu ô không trống, bắt đầu nhóm mới
+                if (currentMergeStart !== null && mergeCount > 0) {
+                    worksheet.mergeCells(currentMergeStart, 1, currentMergeStart + mergeCount - 1, 1);
                 }
-                currentMergeStart = rowIndex; // Bắt đầu nhóm mới
+                currentMergeStart = rowIndex;
+                mergeCount = 1; // Đếm hàng hiện tại
             }
         }
     });
-	// Gộp nhóm cuối nếu cần và nếu nhóm đó hợp lệ
-	if (currentMergeStart !== null && currentMergeStart + 1 <= worksheet.rowCount) {
-	    worksheet.mergeCells(currentMergeStart, 1, currentMergeStart + 1, 1);
-	}
+
+    // Gộp nhóm cuối nếu cần
+    if (currentMergeStart !== null && mergeCount === 3) {
+        worksheet.mergeCells(currentMergeStart, 1, currentMergeStart + 2, 1);
+    }
 
     // Áp dụng định dạng cho tất cả các ô
     worksheet.eachRow((row, rowIndex) => {
