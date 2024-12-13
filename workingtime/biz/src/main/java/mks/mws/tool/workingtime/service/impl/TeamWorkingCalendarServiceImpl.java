@@ -147,14 +147,14 @@ public class TeamWorkingCalendarServiceImpl implements TeamWorkingCalendarServic
                 calendar.setFri((String) row[6]);
                 calendar.setSat((String) row[7]);
                 calendar.setSun((String) row[8]);
-                Object idObject = (row.length == 14) ? row[13] : null; 
+                Object idObject = (row.length == 13) ? row[12] : null; 
                 if (idObject != null) {
                 	calendar.setId(((Integer) idObject).longValue());
                 } else {
                     calendar.setId(null); 
                 }
                 calendar.setNote((String) row[9]); // Lưu giá trị của cột note
-                if((row.length == 14 && calendar.getId() != 0) || row.length == 13) {
+                if((row.length == 13 && calendar.getId() != 0) || row.length == 12) {
                 	calendars.add(calendar);
                 }
             } else {

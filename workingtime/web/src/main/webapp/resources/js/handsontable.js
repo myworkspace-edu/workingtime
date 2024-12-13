@@ -16,7 +16,10 @@ $(document).ready(function() {
 		
 	$('#fromDate, #toDate').on('change', function() {
 		loadTableData();
-		updateToDateEndOfMonth()
+	});
+	
+	$('#fromDate').on('change', function() {
+			updateToDateEndOfMonth()
 	});
 	
 	$('#loadPreviousMonthBtn').on('click', function () {
