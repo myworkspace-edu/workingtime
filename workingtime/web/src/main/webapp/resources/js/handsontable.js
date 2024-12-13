@@ -148,7 +148,13 @@ function initTable() {
 	hotCalendar = new Handsontable(container, {
 		data: tblCalendarData.data,
 		colHeaders: tblCalendarData.colHeaders,
-		colWidths: tblCalendarData.colWidths,
+		colWidths: function(index) {
+            if (index === 9) { 
+                return 240; 
+            } else {
+				return 90;
+			}
+        },
 		height: 290,
 		rowHeaders: true,
 		minRows: 10,
@@ -314,7 +320,7 @@ function countRowsWithDataInColumn0() {
     }
 
     console.log("Row count validate: ", count);
-    return parseInt(count)*2;
+    return parseInt(count)*3;
 }
 
 function exportToExcel() {
